@@ -3,7 +3,7 @@ export type IDocument = {
   title: string;
   body: string;
   URL: string;
-  label?: Array<string>;
+  label?: string[];
 };
 
 export const Documents: IDocument[] = [
