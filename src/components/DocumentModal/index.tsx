@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import {
   Screen,
   Container,
@@ -30,6 +30,7 @@ import { SuggestModal } from "../SuggestModal";
 import { IDocument } from "../../consts/documents";
 import { DocumentsContext } from "../../contexts";
 import CloseMark from "../../assets/close-mark.svg";
+import { useOutsideAlerter } from "../../hooks/useOutsideAlerter";
 
 interface DocumentModalPropsType {
   document: IDocument;
@@ -50,6 +51,9 @@ export const DocumentModal: React.FC<DocumentModalPropsType> = ({
   onPrev,
   onNext,
 }) => {
+  const ref = useRef(null);
+  useOutsideAlerter(ref, onClose);
+
   const { addLabels } = useContext(DocumentsContext);
 
   const [label, setLabel] = useState<string>("");
@@ -100,7 +104,7 @@ export const DocumentModal: React.FC<DocumentModalPropsType> = ({
 
   return (
     <Screen>
-      <Container>
+      <Container ref={ref}>
         <Title>{document.title}</Title>
         <Body>{document.body}</Body>
         <GoToArticle>
@@ -120,11 +124,16 @@ export const DocumentModal: React.FC<DocumentModalPropsType> = ({
               />
             </StyledLabel>
             <SuggestButton onClick={handleClickSuggest}>Suggest</SuggestButton>
-            {isSuggestOpen && <SuggestModal onConfirm={handleSuggest} />}
+            {isSuggestOpen && (
+              <SuggestModal
+                onConfirm={handleSuggest}
+                onClose={() => SetIsSuggestOpen(false)}
+              />
+            )}
           </LabelSide>
           <LabelBox>
             {labels?.map((label, index) => (
-              <LabelItem>
+              <LabelItem key={index}>
                 {label}
                 <RemoveButton
                   onClick={() => {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   Setter,
   Container,
@@ -9,12 +9,20 @@ import {
 } from "./style";
 import { SuggestLabels } from "../../consts/suggests";
 import CheckMark from "../../assets/check-mark.svg";
+import { useOutsideAlerter } from "../../hooks/useOutsideAlerter";
 
 interface SuggestPropsType {
   onConfirm: (labels: string[] | undefined) => void;
+  onClose: () => void;
 }
 
-export const SuggestModal: React.FC<SuggestPropsType> = ({ onConfirm }) => {
+export const SuggestModal: React.FC<SuggestPropsType> = ({
+  onConfirm,
+  onClose,
+}) => {
+  const ref = useRef(null);
+  useOutsideAlerter(ref, onClose);
+
   const [isTickShow, SetIsTickShow] = useState<boolean[]>(
     Array(SuggestLabels.length).fill(false)
   );
@@ -34,10 +42,10 @@ export const SuggestModal: React.FC<SuggestPropsType> = ({ onConfirm }) => {
 
   return (
     <Setter>
-      <Container>
+      <Container ref={ref}>
         <ListItem>
           {SuggestLabels.map((label, index) => (
-            <SuggestButton onClick={() => handleClickItem(index)}>
+            <SuggestButton onClick={() => handleClickItem(index)} key={index}>
               {label}
               {isTickShow[index] && (
                 <TickShow src={CheckMark} alt="CheckMark" />

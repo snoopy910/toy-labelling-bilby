@@ -22,7 +22,7 @@ export const Title = styled.div`
   align-content: center;
 `;
 
-export const ID = styled.div`
+export const IDNumber = styled.div`
   font-size: 24px;
   font-weight: bolder;
   margin-right: 10px;

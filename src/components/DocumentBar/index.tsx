@@ -1,20 +1,20 @@
 import React from "react";
-import { Container, ID, Title } from "./style";
+import { Container, IDNumber, Title } from "./style";
 
 interface DocumentBarPropsType {
-  id: number;
+  ID: number;
   title: string;
   onClick: () => void;
 }
 
 export const DocumentBar: React.FC<DocumentBarPropsType> = ({
-  id,
+  ID,
   title,
   onClick,
 }) => {
   return (
     <Container onClick={onClick}>
-      <ID>{id + 1}</ID>
+      <IDNumber>{ID + 1}</IDNumber>
       <Title>{title}</Title>
     </Container>
   );

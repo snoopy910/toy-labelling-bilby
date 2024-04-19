@@ -40,16 +40,14 @@ export const DocumentView: React.FC = () => {
     <Container>
       {documents.map((document, index) => {
         return (
-          <>
+          <div key={index}>
             <DocumentBar
-              key={index}
-              id={document.ID}
+              ID={document.ID}
               title={document.title}
               onClick={() => openModal(document.ID)}
             />
             {modalID === document.ID && (
               <DocumentModal
-                key={`DM${index}`}
                 document={document}
                 isOpen={isModalOpen}
                 onClose={closeModal}
@@ -59,7 +57,7 @@ export const DocumentView: React.FC = () => {
                 onNext={() => goToNext(document.ID)}
               />
             )}
-          </>
+          </div>
         );
       })}
     </Container>
