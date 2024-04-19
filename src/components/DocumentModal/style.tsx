@@ -50,11 +50,19 @@ export const Label = styled.label``;
 
 export const StyledLabel = styled.div`
   display: flex;
+  align-items: center;
   gap: 10px;
 `;
 
 export const LabelInput = styled.input`
-  height: 20px;
+  border: none;
+  border-radius: 1rem;
+  background-color: #d8d8d8;
+  font-size: 16px;
+  padding: 10px 20px;
+  &:focus {
+    outline: none;
+  }
 `;
 
 export const LabelBox = styled.div`

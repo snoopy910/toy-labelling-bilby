@@ -29,11 +29,11 @@ export const DocumentView: React.FC = () => {
   };
 
   const goToPrev = (id: number) => {
-    setModalID(id - 1);
+    if (id !== 0) setModalID(id - 1);
   };
 
   const goToNext = (id: number) => {
-    setModalID(id + 1);
+    if (id !== documents.length - 1) setModalID(id + 1);
   };
 
   return (

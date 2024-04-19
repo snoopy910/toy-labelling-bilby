@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 export const Container = styled.div`
   display: flex;
   align-items: center;
-  /* width: 100%; */
   justify-content: space-between;
   margin-top: 40px;
   margin-right: 25%;
@@ -18,18 +17,20 @@ export const Container = styled.div`
 `;
 
 export const Title = styled(Link)`
+  padding: 0 1rem;
   font-size: 32px;
-  font-weight: bolder;
+  color: black;
+  &:hover {
+    color: grey;
+  }
 `;
 
 export const DocumentButton = styled(Link)`
-  width: 180px;
+  padding: 0 1rem;
   text-align: center;
-  font-size: 26px;
-  color: white;
-  background-color: #646464;
+  font-size: 32px;
+  color: black;
   &:hover {
-    color: white;
-    background-color: #353535;
+    color: grey;
   }
 `;
