@@ -8,7 +8,7 @@ import {
   ConfirmButton,
 } from "./style";
 import { SuggestLabels } from "../../consts/suggests";
-import CheckMark from "./check-mark.svg";
+import CheckMark from "../../assets/check-mark.svg";
 
 interface SuggestPropsType {
   onConfirm: (labels: string[] | undefined) => void;

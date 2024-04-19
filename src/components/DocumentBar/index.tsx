@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, ID, Title, Labels } from "./style";
+import { Container, ID, Title } from "./style";
 
 interface DocumentBarPropsType {
   id: number;

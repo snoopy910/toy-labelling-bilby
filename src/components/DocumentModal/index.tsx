@@ -29,7 +29,7 @@ import {
 import { SuggestModal } from "../SuggestModal";
 import { IDocument } from "../../consts/documents";
 import { DocumentsContext } from "../../contexts";
-import CloseMark from "./close-mark.svg";
+import CloseMark from "../../assets/close-mark.svg";
 
 interface DocumentModalPropsType {
   document: IDocument;
