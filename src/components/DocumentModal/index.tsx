@@ -73,7 +73,6 @@ export const DocumentModal: React.FC<DocumentModalPropsType> = ({
   };
 
   const handleSave = (id: number, labels: string[] | undefined) => {
-    console.log(handleSave);
     addLabels(id, labels);
   };
 

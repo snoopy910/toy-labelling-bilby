@@ -7,8 +7,8 @@ export const Container = styled.div`
   /* width: 100%; */
   justify-content: space-between;
   margin-top: 40px;
-  margin-right: 400px;
-  margin-left: 400px;
+  margin-right: 25%;
+  margin-left: 25%;
   z-index: 100;
 
   position: fixed;

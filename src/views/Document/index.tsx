@@ -11,7 +11,6 @@ export const DocumentView: React.FC = () => {
   const [modalID, setModalID] = useState<number | null>(null);
 
   const openModal = (id: number) => {
-    console.log("hello");
     setModalID(id);
     setIsModalOpen(true);
   };
@@ -39,17 +38,18 @@ export const DocumentView: React.FC = () => {
 
   return (
     <Container>
-      {documents.map((document) => {
+      {documents.map((document, index) => {
         return (
           <>
             <DocumentBar
+              key={index}
               id={document.ID}
               title={document.title}
-              labels={document.label}
               onClick={() => openModal(document.ID)}
             />
             {modalID === document.ID && (
               <DocumentModal
+                key={`DM${index}`}
                 document={document}
                 isOpen={isModalOpen}
                 onClose={closeModal}

@@ -11,7 +11,7 @@ export const Container = styled.div`
 export const Content = styled.div`
   position: relative;
   top: 300px;
-  left: 400px;
+  left: 25vw;
   width: 50vw;
 `;
 
