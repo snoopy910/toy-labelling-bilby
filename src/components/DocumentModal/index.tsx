@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Screen,
   Container,
@@ -6,8 +6,14 @@ import {
   Body,
   LabelContainer,
   Label,
+  LabelSide,
+  StyledLabel,
   LabelInput,
+  SuggestButton,
   LabelBox,
+  LabelItem,
+  RemoveButton,
+  CloseSVG,
   GoToArticle,
   ControlBar,
   MoveController,
@@ -20,7 +26,10 @@ import {
   ResetButton,
   CloseButton,
 } from "./style";
+import { SuggestModal } from "../SuggestModal";
 import { IDocument } from "../../consts/documents";
+import { DocumentsContext } from "../../contexts";
+import CloseMark from "./close-mark.svg";
 
 interface DocumentModalPropsType {
   document: IDocument;
@@ -41,6 +50,53 @@ export const DocumentModal: React.FC<DocumentModalPropsType> = ({
   onPrev,
   onNext,
 }) => {
+  const { addLabels } = useContext(DocumentsContext);
+
+  const [label, setLabel] = useState<string>("");
+  const [labels, setLabels] = useState<string[] | undefined>([]);
+
+  const [isSuggestOpen, SetIsSuggestOpen] = useState(false);
+
+  useEffect(() => {
+    setLabels(document.label);
+  }, [document]);
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setLabel(event.target.value);
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      setLabels([...(labels || []), label]);
+      setLabel("");
+    }
+  };
+
+  const handleSave = (id: number, labels: string[] | undefined) => {
+    console.log(handleSave);
+    addLabels(id, labels);
+  };
+
+  const handleSuggest = (suggests: string[] | undefined) => {
+    setLabels([...(labels || []), ...(suggests || [])]);
+    SetIsSuggestOpen(false);
+  };
+
+  const handleReset = (id: number) => {
+    setLabels([]);
+    handleSave(id, []);
+  };
+
+  const handleClickSuggest = () => {
+    SetIsSuggestOpen(true);
+  };
+
+  const handleRemove = (id: number) => {
+    let temp = labels?.map((label) => label);
+    temp?.splice(id, 1);
+    setLabels(temp);
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -54,9 +110,33 @@ export const DocumentModal: React.FC<DocumentModalPropsType> = ({
           </a>
         </GoToArticle>
         <LabelContainer>
-          <Label>Label</Label>
-          <LabelInput>input</LabelInput>
-          <LabelBox>{document.label}</LabelBox>
+          <LabelSide>
+            <StyledLabel>
+              <Label htmlFor="text">Label</Label>
+              <LabelInput
+                type="text"
+                value={label}
+                onChange={handleChange}
+                onKeyDown={handleKeyDown}
+              />
+            </StyledLabel>
+            <SuggestButton onClick={handleClickSuggest}>Suggest</SuggestButton>
+            {isSuggestOpen && <SuggestModal onConfirm={handleSuggest} />}
+          </LabelSide>
+          <LabelBox>
+            {labels?.map((label, index) => (
+              <LabelItem>
+                {label}
+                <RemoveButton
+                  onClick={() => {
+                    handleRemove(index);
+                  }}
+                >
+                  <CloseSVG src={CloseMark} alt="Close Mark" />
+                </RemoveButton>
+              </LabelItem>
+            ))}
+          </LabelBox>
         </LabelContainer>
         <ControlBar>
           <MoveController>
@@ -66,8 +146,12 @@ export const DocumentModal: React.FC<DocumentModalPropsType> = ({
             <Last onClick={onLast}>&gt;&gt;</Last>
           </MoveController>
           <SaveReset>
-            <SaveButton>Save</SaveButton>
-            <ResetButton>Reset</ResetButton>
+            <SaveButton onClick={() => handleSave(document.ID, labels)}>
+              Save
+            </SaveButton>
+            <ResetButton onClick={() => handleReset(document.ID)}>
+              Reset
+            </ResetButton>
             <CloseButton onClick={onClose}>Close</CloseButton>
           </SaveReset>
         </ControlBar>
