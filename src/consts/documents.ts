@@ -6,7 +6,7 @@ export type IDocument = {
   label?: string[];
 };
 
-export const Documents: IDocument[] = [
+export const DEFAULT_DOCUMENTS: IDocument[] = [
   {
     ID: 0,
     title: "Video: How China and India Help Russia’s Economy by Buying Oil",
