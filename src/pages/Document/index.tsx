@@ -1,7 +1,7 @@
 import React from "react";
+import { Container } from "./style";
 import { DocumentView } from "../../views/Document";
 import { Sidebar } from "../../views/Sidebar";
-import { Container } from "./style";
 
 export const DocumentPage: React.FC = () => {
   return (

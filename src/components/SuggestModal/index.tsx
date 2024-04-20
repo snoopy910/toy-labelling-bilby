@@ -7,8 +7,8 @@ import {
   TickShow,
   ConfirmButton,
 } from "./style";
-import { SuggestLabels } from "../../consts/suggests";
 import CheckMark from "../../assets/check-mark.svg";
+import { SuggestLabels } from "../../consts/suggests";
 import { useOutsideAlerter } from "../../hooks/useOutsideAlerter";
 
 interface SuggestPropsType {
@@ -33,7 +33,7 @@ export const SuggestModal: React.FC<SuggestPropsType> = ({
   };
 
   const handleOK = () => {
-    let suggests: string[] = [];
+    const suggests: string[] = [];
     SuggestLabels.map((label, index) => {
       if (isTickShow[index]) suggests.push(label);
     });

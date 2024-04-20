@@ -1,8 +1,8 @@
 import React, { useContext, useState } from "react";
 import { Container } from "./style";
 import { DocumentBar } from "../../components/DocumentBar";
-import { DocumentsContext } from "../../contexts";
 import { DocumentModal } from "../../components/DocumentModal";
+import { DocumentsContext } from "../../contexts";
 
 export const DocumentView: React.FC = () => {
   const { documents } = useContext(DocumentsContext);

@@ -26,11 +26,11 @@ import {
   ResetButton,
   CloseButton,
 } from "./style";
-import { SuggestModal } from "../SuggestModal";
+import CloseMark from "../../assets/close-mark.svg";
 import { IDocument } from "../../consts/documents";
 import { DocumentsContext } from "../../contexts";
-import CloseMark from "../../assets/close-mark.svg";
 import { useOutsideAlerter } from "../../hooks/useOutsideAlerter";
+import { SuggestModal } from "../SuggestModal";
 
 interface DocumentModalPropsType {
   document: IDocument;
@@ -94,7 +94,7 @@ export const DocumentModal: React.FC<DocumentModalPropsType> = ({
   };
 
   const handleRemove = (id: number) => {
-    let temp = labels?.map((label) => label);
+    const temp = labels?.map((label) => label);
     temp?.splice(id, 1);
     setLabels(temp);
   };
