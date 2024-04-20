@@ -20,6 +20,8 @@ export const Container = styled.div`
   height: fit-content;
   box-shadow: 5px 5px 10px;
   padding: 20px;
+  display: grid;
+  gap: 20px;
 `;
 
 export const Title = styled.div`
@@ -35,7 +37,6 @@ export const Body = styled.div`
 
 export const LabelContainer = styled.div`
   display: flex;
-  margin: 20px;
   gap: 5px;
   justify-content: space-evenly;
 `;
@@ -92,8 +93,6 @@ export const CloseSVG = styled.img`
 
 export const GoToArticle = styled.div`
   width: 100%;
-  margin-top: 10px;
-  margin-bottom: 10px;
   text-align: center;
 `;
 
