@@ -5,16 +5,46 @@ export const Setter = styled.div`
   display: inline-block;
 `;
 
-export const Container = styled.div`
+export const Container = styled.div<{ $isvisible: boolean }>`
   position: fixed;
   display: grid;
-  width: 300px;
+  width: 250px;
   height: 200px;
   background-color: white;
   box-shadow: 5px 5px 10px;
-  transition: 3s ease-in;
   padding: 10px;
   justify-items: flex-end;
+  /* animation-name: animatedown; */
+  animation-duration: 1s;
+  transition: opacity 0.5s ease-out, height 0.5s ease-out;
+  animation-name: ${(props) =>
+    props.$isvisible ? "animatedown" : "animateup"};
+
+  @keyframes animatedown {
+    from {
+      position: relative;
+      height: 0px;
+      opacity: 0;
+    }
+    to {
+      position: relative;
+      height: 200px;
+      opacity: 1;
+    }
+  }
+
+  @keyframes animateup {
+    from {
+      position: relative;
+      height: 200px;
+      opacity: 1;
+    }
+    to {
+      position: relative;
+      height: 0px;
+      opacity: 0;
+    }
+  }
 `;
 
 export const SuggestButton = styled.button`

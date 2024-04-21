@@ -22,6 +22,17 @@ export const Container = styled.div`
   padding: 20px;
   display: grid;
   gap: 20px;
+  animation-name: animatescale;
+  animation-duration: 1s;
+
+  @keyframes animatescale {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 `;
 
 export const Title = styled.div`

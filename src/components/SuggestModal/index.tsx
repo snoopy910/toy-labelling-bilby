@@ -12,11 +12,13 @@ import { SuggestLabels } from "../../consts/suggests";
 import { useOutsideAlerter } from "../../hooks/useOutsideAlerter";
 
 interface SuggestPropsType {
+  isVisible: boolean;
   onConfirm: (labels: string[] | undefined) => void;
   onClose: () => void;
 }
 
 export const SuggestModal: React.FC<SuggestPropsType> = ({
+  isVisible,
   onConfirm,
   onClose,
 }) => {
@@ -42,7 +44,7 @@ export const SuggestModal: React.FC<SuggestPropsType> = ({
 
   return (
     <Setter>
-      <Container ref={ref}>
+      <Container ref={ref} $isvisible={isVisible}>
         <ListItem>
           {SuggestLabels.map((label, index) => (
             <SuggestButton onClick={() => handleClickItem(index)} key={index}>

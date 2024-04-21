@@ -61,6 +61,8 @@ export const DocumentModal: React.FC<DocumentModalPropsType> = ({
   const [labels, setLabels] = useState<string[] | undefined>([]);
 
   const [isSuggestOpen, setIsSuggestOpen] = useState<boolean>(false);
+  const [isSuggestVisible, setIsSuggestVisible] = useState<boolean>(false);
+
   const [isConfirmOpen, setIsConfirmOpen] = useState({
     status: false,
     type: "prev",
@@ -87,7 +89,17 @@ export const DocumentModal: React.FC<DocumentModalPropsType> = ({
 
   const handleSuggest = (suggests: string[] | undefined) => {
     setLabels([...(labels || []), ...(suggests || [])]);
-    setIsSuggestOpen(false);
+    setIsSuggestVisible(false);
+    setTimeout(() => {
+      setIsSuggestOpen(false);
+    }, 900);
+  };
+
+  const handleSuggestClose = () => {
+    setIsSuggestVisible(false);
+    setTimeout(() => {
+      setIsSuggestOpen(false);
+    }, 900);
   };
 
   const handleReset = (id: number) => {
@@ -95,6 +107,7 @@ export const DocumentModal: React.FC<DocumentModalPropsType> = ({
   };
 
   const handleClickSuggest = () => {
+    setIsSuggestVisible(true);
     setIsSuggestOpen(true);
   };
 
@@ -186,8 +199,9 @@ export const DocumentModal: React.FC<DocumentModalPropsType> = ({
             <SuggestButton onClick={handleClickSuggest}>Suggest</SuggestButton>
             {isSuggestOpen && (
               <SuggestModal
+                isVisible={isSuggestVisible}
                 onConfirm={handleSuggest}
-                onClose={() => setIsSuggestOpen(false)}
+                onClose={handleSuggestClose}
               />
             )}
           </LabelSide>

@@ -2,12 +2,12 @@ import React, { useEffect } from "react";
 
 export const useOutsideAlerter = (
   ref: React.RefObject<HTMLElement>,
-  seStatus: (status: boolean) => void
+  setStatus: (status: boolean) => void
 ) => {
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (ref.current && !ref.current.contains(event.target as Node)) {
-        seStatus(false);
+        setStatus(false);
       }
     }
 
@@ -16,5 +16,5 @@ export const useOutsideAlerter = (
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [ref]);
+  }, [ref, setStatus]);
 };
