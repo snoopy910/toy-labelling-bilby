@@ -1,11 +1,9 @@
-FROM mcr.microsoft.com/playwright:focal AS base
-
-COPY . /app
+FROM mcr.microsoft.com/playwright:focal
 
 WORKDIR /app
 
-RUN npm install
+COPY . .
 
-EXPOSE 3000
+RUN npm install
 
 CMD [ "npm", "run", "dev" ]

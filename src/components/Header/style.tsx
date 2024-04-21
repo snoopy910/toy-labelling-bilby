@@ -25,7 +25,7 @@ export const Title = styled(Link)`
   }
 `;
 
-export const DocumentButton = styled(Link)`
+export const GoToDocument = styled(Link)`
   padding: 0 1rem;
   text-align: center;
   font-size: 32px;

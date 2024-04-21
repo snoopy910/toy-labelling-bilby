@@ -1,11 +1,11 @@
 import React from "react";
-import { Container, Title, DocumentButton } from "./style";
+import { Container, Title, GoToDocument } from "./style";
 
 export const HeaderComponent: React.FC = () => {
   return (
     <Container>
       <Title to={"/"}>Bilby</Title>
-      <DocumentButton to={"/documents"}>Documents</DocumentButton>
+      <GoToDocument to={"/documents"}>Documents</GoToDocument>
     </Container>
   );
 };

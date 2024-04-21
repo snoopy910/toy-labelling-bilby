@@ -1,0 +1,6 @@
+services:
+  labelling:
+    image: "bilby"
+    build: .
+    ports:
+      - "5173:5173"
