@@ -92,14 +92,14 @@ export const DocumentModal: React.FC<DocumentModalPropsType> = ({
     setIsSuggestVisible(false);
     setTimeout(() => {
       setIsSuggestOpen(false);
-    }, 900);
+    }, 480);
   };
 
   const handleSuggestClose = () => {
     setIsSuggestVisible(false);
     setTimeout(() => {
       setIsSuggestOpen(false);
-    }, 900);
+    }, 480);
   };
 
   const handleReset = (id: number) => {

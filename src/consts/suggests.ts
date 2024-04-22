@@ -5,4 +5,13 @@ export const SuggestLabels: string[] = [
   "lion",
   "tiger",
   "eagle",
+  "rhino",
+  "mouse",
+  "elephant",
+  "owl",
+  "flamingo",
+  "zebra",
+  "monkey",
+  "parrot",
+  "peacock",
 ];
