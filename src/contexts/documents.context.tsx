@@ -48,21 +48,6 @@ export const DocumentsContextProvider: React.FC<DocumentsContextProps> = ({
     localStorage.setItem("documents", JSON.stringify(documents));
   }, [documents]);
 
-  // useEffect(() => {
-  //   const LSstring = localStorage.getItem("documents");
-  //   if (LSstring !== "[]") {
-  //     console.log("B");
-  //     const documents = JSON.parse(LSstring ?? "");
-  //     setDocuments(documents);
-  //   } else {
-  //     console.log("A");
-  //     setDocuments(DEFAULT_DOCUMENTS);
-  //   }
-  //   return () => {
-  //     localStorage.setItem("documents", JSON.stringify(documents));
-  //   };
-  // }, []);
-
   return (
     <DocumentsContext.Provider
       value={{
