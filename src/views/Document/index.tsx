@@ -5,7 +5,7 @@ import { DocumentModal } from "../../components/DocumentModal";
 import { DocumentsContext } from "../../contexts";
 
 export const DocumentView: React.FC = () => {
-  const { documents } = useContext(DocumentsContext);
+  const { documents, fetchDocuments } = useContext(DocumentsContext);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalID, setModalID] = useState<number | null>(null);
@@ -36,8 +36,15 @@ export const DocumentView: React.FC = () => {
     setModalID(Math.min(id + 1, documents.length - 1));
   };
 
+  const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
+    const e = event.currentTarget;
+    if (e.scrollHeight - e.scrollTop === e.clientHeight) {
+      fetchDocuments(documents.length);
+    }
+  };
+
   return (
-    <Container>
+    <Container onScroll={handleScroll}>
       {documents.map((document, index) => {
         return (
           <div key={index}>
