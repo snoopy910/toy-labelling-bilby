@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useState, useRef } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Screen,
   Container,
@@ -24,38 +25,29 @@ import {
   SaveReset,
   SaveButton,
   ResetButton,
-  CloseButton,
 } from "./style";
 import CloseMark from "../../assets/close-mark.svg";
-import { IDocument } from "../../consts/documents";
+import { DOCUMENTS, IDocument } from "../../consts";
 import { DocumentsContext } from "../../contexts";
-import { useOutsideAlerter } from "../../hooks/useOutsideAlerter";
 import { ConfirmModal } from "../ConfirmModal";
 import { SuggestModal } from "../SuggestModal";
 
-interface DocumentModalPropsType {
-  document: IDocument;
-  isOpen: boolean;
-  onClose: () => void;
-  onFirst: () => void;
-  onLast: () => void;
-  onPrev: () => void;
-  onNext: () => void;
-}
+type PathParams = {
+  id: string;
+};
 
-export const DocumentModal: React.FC<DocumentModalPropsType> = ({
-  document,
-  isOpen,
-  onClose,
-  onFirst,
-  onLast,
-  onPrev,
-  onNext,
-}) => {
-  const ref = useRef(null);
-  useOutsideAlerter(ref, onClose);
+const DefaultDocument: IDocument = {
+  ID: 0,
+  title: "",
+  body: "",
+  URL: "",
+};
+
+export const DocumentModal: React.FC = () => {
+  const { id } = useParams<PathParams>();
 
   const { documents, changeLabels } = useContext(DocumentsContext);
+  const [document, setDocument] = useState<IDocument>(DefaultDocument);
 
   const [label, setLabel] = useState<string>("");
   const [labels, setLabels] = useState<string[] | undefined>([]);
@@ -67,6 +59,15 @@ export const DocumentModal: React.FC<DocumentModalPropsType> = ({
     status: false,
     type: "prev",
   });
+  const navigate = useNavigate();
+
+  // const pageController = usePageController(0);
+
+  useEffect(() => {
+    if (id) {
+      setDocument(documents[parseInt(id)]);
+    }
+  }, [id, documents]);
 
   useEffect(() => {
     setLabels(document.label);
@@ -117,11 +118,15 @@ export const DocumentModal: React.FC<DocumentModalPropsType> = ({
     setLabels(temp);
   };
 
+  const handlePageController = (id: number) => {
+    navigate(DOCUMENTS + "/" + id);
+  };
+
   const onFirstClick = () => {
     if (labels?.toString() !== document.label?.toString()) {
       setIsConfirmOpen({ status: true, type: "first" });
     } else {
-      onFirst();
+      handlePageController(0);
     }
   };
 
@@ -129,7 +134,7 @@ export const DocumentModal: React.FC<DocumentModalPropsType> = ({
     if (labels?.toString() !== document.label?.toString()) {
       setIsConfirmOpen({ status: true, type: "last" });
     } else {
-      onLast();
+      handlePageController(documents.length - 1);
     }
   };
 
@@ -137,7 +142,7 @@ export const DocumentModal: React.FC<DocumentModalPropsType> = ({
     if (labels?.toString() !== document.label?.toString()) {
       setIsConfirmOpen({ status: true, type: "prev" });
     } else {
-      onPrev();
+      if (id) handlePageController(Math.max(parseInt(id) - 1, 0));
     }
   };
 
@@ -147,37 +152,38 @@ export const DocumentModal: React.FC<DocumentModalPropsType> = ({
     if (labels?.toString() !== document.label?.toString()) {
       setIsConfirmOpen({ status: true, type: "next" });
     } else {
-      onNext();
+      if (id)
+        handlePageController(Math.min(parseInt(id) + 1, documents.length - 1));
     }
   };
 
   const handleConfirm = () => {
-    handleSave(document.ID, labels);
-    switch (isConfirmOpen.type) {
-      case "first":
-        onFirst();
-        break;
-      case "last":
-        onLast();
-        break;
-      case "prev":
-        onPrev();
-        break;
-      case "next":
-        onNext();
+    if (id) {
+      handleSave(document.ID, labels);
+      switch (isConfirmOpen.type) {
+        case "first":
+          navigate(DOCUMENTS + "/" + 0);
+          break;
+        case "last":
+          navigate(DOCUMENTS + "/" + (documents.length - 1));
+          break;
+        case "prev":
+          navigate(DOCUMENTS + "/" + (parseInt(id) - 1));
+          break;
+        case "next":
+          navigate(DOCUMENTS + "/" + (parseInt(id) + 1));
+      }
+      setIsConfirmOpen({ status: false, type: "prev" });
     }
-    setIsConfirmOpen({ status: false, type: "prev" });
   };
 
   const handleConfirmCancel = () => {
     setIsConfirmOpen({ status: false, type: "prev" });
   };
 
-  if (!isOpen) return null;
-
   return (
     <Screen>
-      <Container ref={ref}>
+      <Container>
         <Title>{document.title}</Title>
         <Body>{document.body}</Body>
         <GoToArticle>
@@ -240,7 +246,6 @@ export const DocumentModal: React.FC<DocumentModalPropsType> = ({
             <ResetButton onClick={() => handleReset(document.ID)}>
               Reset
             </ResetButton>
-            <CloseButton onClick={onClose}>Close</CloseButton>
           </SaveReset>
         </ControlBar>
       </Container>
