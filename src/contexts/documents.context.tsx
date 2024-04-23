@@ -10,14 +10,14 @@ interface DocumentsContextType {
   documents: IDocument[];
   loading: boolean;
   fetchDocuments: (id: number) => void;
-  addLabels: (ID: number, labels: string[] | undefined) => void;
+  changeLabels: (ID: number, labels: string[] | undefined) => void;
 }
 
 const defaultDocuments: DocumentsContextType = {
   documents: [],
   loading: false,
   fetchDocuments: () => {},
-  addLabels: () => {},
+  changeLabels: () => {},
 };
 
 export const DocumentsContext = createContext(defaultDocuments);
@@ -51,7 +51,7 @@ export const DocumentsContextProvider: React.FC<DocumentsContextProps> = ({
     }
   }, [data, loading]);
 
-  const addLabels = (ID: number, newLabels: string[] | undefined) => {
+  const changeLabels = (ID: number, newLabels: string[] | undefined) => {
     const updatedDocuments = documents.map((doc, index) => {
       if (index === ID) {
         return { ...doc, label: newLabels };
@@ -67,7 +67,7 @@ export const DocumentsContextProvider: React.FC<DocumentsContextProps> = ({
         documents,
         loading,
         fetchDocuments,
-        addLabels,
+        changeLabels,
       }}
     >
       {children}

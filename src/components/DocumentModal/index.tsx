@@ -55,7 +55,7 @@ export const DocumentModal: React.FC<DocumentModalPropsType> = ({
   const ref = useRef(null);
   useOutsideAlerter(ref, onClose);
 
-  const { documents, addLabels } = useContext(DocumentsContext);
+  const { documents, changeLabels } = useContext(DocumentsContext);
 
   const [label, setLabel] = useState<string>("");
   const [labels, setLabels] = useState<string[] | undefined>([]);
@@ -84,7 +84,7 @@ export const DocumentModal: React.FC<DocumentModalPropsType> = ({
   };
 
   const handleSave = (id: number, labels: string[] | undefined) => {
-    addLabels(id, labels);
+    changeLabels(id, labels);
   };
 
   const handleSuggest = (suggests: string[] | undefined) => {

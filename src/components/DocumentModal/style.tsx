@@ -23,7 +23,7 @@ export const Container = styled.div`
   display: grid;
   gap: 20px;
   animation-name: animatescale;
-  animation-duration: 1s;
+  animation-duration: 0.5s;
 
   @keyframes animatescale {
     from {
