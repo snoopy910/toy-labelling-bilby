@@ -8,8 +8,9 @@ interface FetchResponse {
 }
 
 type FetchFunction = (id: number) => void;
+type UpdateFunction = (id: number, labels: string[]) => void;
 
-export const useFetch = (): [FetchFunction, FetchResponse] => {
+export const useFetch = (): [FetchFunction, UpdateFunction, FetchResponse] => {
   const [response, setResponse] = useState<FetchResponse>({
     data: null,
     loading: false,
@@ -31,5 +32,23 @@ export const useFetch = (): [FetchFunction, FetchResponse] => {
       setResponse({ ...response, loading: false, error: "An error occured." });
     }
   };
-  return [fetchDocuments, response];
+
+  const updateLabelsToAPI = async (id: number, labels: string[]) => {
+    try {
+      await fetch(BASE_API + "/" + id, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ labels: labels }),
+      }).then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not OK!");
+        }
+      });
+    } catch (error) {
+      setResponse({ ...response, loading: false, error: "An error occured." });
+    }
+  };
+  return [fetchDocuments, updateLabelsToAPI, response];
 };

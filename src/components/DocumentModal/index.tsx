@@ -46,7 +46,7 @@ const DefaultDocument: IDocument = {
 export const DocumentModal: React.FC = () => {
   const { id } = useParams<PathParams>();
 
-  const { documents, changeLabels } = useContext(DocumentsContext);
+  const { documents, updateLabels } = useContext(DocumentsContext);
   const [document, setDocument] = useState<IDocument>(DefaultDocument);
 
   const [label, setLabel] = useState<string>("");
@@ -62,7 +62,6 @@ export const DocumentModal: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(documents);
     if (documents.length === 0) navigate(DOCUMENTS);
   }, []);
 
@@ -88,7 +87,7 @@ export const DocumentModal: React.FC = () => {
   };
 
   const handleSave = (id: number, labels: string[] | undefined) => {
-    changeLabels(id, labels);
+    updateLabels(id, labels);
   };
 
   const handleSuggest = (suggests: string[] | undefined) => {
@@ -150,8 +149,6 @@ export const DocumentModal: React.FC = () => {
   };
 
   const onNextClick = () => {
-    console.log(labels);
-    console.log(document.label);
     if (labels?.toString() !== document.label?.toString()) {
       setIsConfirmOpen({ status: true, type: "next" });
     } else {
