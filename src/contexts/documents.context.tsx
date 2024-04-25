@@ -30,7 +30,6 @@ export const DocumentsContextProvider: React.FC<DocumentsContextProps> = ({
 
   useEffect(() => {
     fetchDocuments(0);
-    data && setDocuments(data.slice(0, 20));
   }, []);
 
   useEffect(() => {

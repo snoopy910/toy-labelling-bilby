@@ -61,7 +61,10 @@ export const DocumentModal: React.FC = () => {
   });
   const navigate = useNavigate();
 
-  // const pageController = usePageController(0);
+  useEffect(() => {
+    console.log(documents);
+    if (documents.length === 0) navigate(DOCUMENTS);
+  }, []);
 
   useEffect(() => {
     if (id) {
