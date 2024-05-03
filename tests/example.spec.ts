@@ -1,5 +1,7 @@
 import { expect, test } from "@playwright/test";
-import { BASE_URL } from "../src/consts";
+// import { PATH } from "../src/consts";
+
+const BASE_URL = process.env.BASE_URL ?? "";
 
 test("test", async ({ page }) => {
   await page.goto(BASE_URL);

@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Container } from "./style";
-import { DocumentBar } from "../../components/DocumentBar";
-import { DocumentModal } from "../../components/DocumentModal";
+import { DocumentBar, DocumentModal } from "../../components";
 import { DocumentsContext } from "../../contexts";
 
 export const DocumentView: React.FC = () => {
@@ -49,11 +48,11 @@ export const DocumentView: React.FC = () => {
         return (
           <div key={index}>
             <DocumentBar
-              ID={document.ID}
+              id={document.ID}
               title={document.title}
               onClick={() => openModal(document.ID)}
             />
-            {modalID === document.ID && (
+            {modalID === document.ID ? (
               <DocumentModal
                 document={document}
                 isOpen={isModalOpen}
@@ -63,6 +62,8 @@ export const DocumentView: React.FC = () => {
                 onPrev={() => goToPrev(document.ID)}
                 onNext={() => goToNext(document.ID)}
               />
+            ) : (
+              <></>
             )}
           </div>
         );

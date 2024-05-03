@@ -6,6 +6,8 @@ export type IDocument = {
   label?: string[];
 };
 
+export const NUMBER_TO_FETCH = 20;
+
 export const DEFAULT_DOCUMENTS: IDocument[] = [
   {
     ID: 0,

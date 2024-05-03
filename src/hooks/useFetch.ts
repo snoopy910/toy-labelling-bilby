@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { IDocument, DEFAULT_DOCUMENTS } from "../consts/documents";
+import { IDocument, DEFAULT_DOCUMENTS, NUMBER_TO_FETCH } from "../consts";
 
 interface FetchResponse {
   data: IDocument[] | null;
@@ -18,8 +18,8 @@ export const useFetch = (): [FetchFunction, FetchResponse] => {
     console.log(id);
     setResponse({ ...response, loading: true });
     let fetchDocuments: IDocument[] = [];
-    if (DEFAULT_DOCUMENTS.length >= id + 20) {
-      fetchDocuments = DEFAULT_DOCUMENTS.slice(id, id + 20);
+    if (DEFAULT_DOCUMENTS.length >= id + NUMBER_TO_FETCH) {
+      fetchDocuments = DEFAULT_DOCUMENTS.slice(id, id + NUMBER_TO_FETCH);
     } else {
       fetchDocuments = DEFAULT_DOCUMENTS.slice(id, DEFAULT_DOCUMENTS.length);
     }

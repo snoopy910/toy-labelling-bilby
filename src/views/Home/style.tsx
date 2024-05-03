@@ -21,6 +21,6 @@ export const Title = styled.div`
   margin-bottom: 50px;
 `;
 
-export const Desc = styled.div`
+export const Description = styled.div`
   font-size: 28px;
 `;

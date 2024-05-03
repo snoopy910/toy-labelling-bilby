@@ -27,9 +27,9 @@ import {
   CloseButton,
 } from "./style";
 import CloseMark from "../../assets/close-mark.svg";
-import { IDocument } from "../../consts/documents";
+import { IDocument } from "../../consts";
 import { DocumentsContext } from "../../contexts";
-import { useOutsideAlerter } from "../../hooks/useOutsideAlerter";
+import { useOutsideAlerter } from "../../hooks";
 import { ConfirmModal } from "../ConfirmModal";
 import { SuggestModal } from "../SuggestModal";
 
@@ -197,12 +197,14 @@ export const DocumentModal: React.FC<DocumentModalPropsType> = ({
               />
             </StyledLabel>
             <SuggestButton onClick={handleClickSuggest}>Suggest</SuggestButton>
-            {isSuggestOpen && (
+            {isSuggestOpen ? (
               <SuggestModal
                 isVisible={isSuggestVisible}
                 onConfirm={handleSuggest}
                 onClose={handleSuggestClose}
               />
+            ) : (
+              <></>
             )}
           </LabelSide>
           <LabelBox>
