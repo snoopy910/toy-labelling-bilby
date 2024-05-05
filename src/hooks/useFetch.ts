@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { BASE_API, IDocument } from "../consts";
+import { IDocument, NUMBER_TO_FETCH } from "../consts";
+import { BASE_API } from "../consts";
 
 interface FetchResponse {
   data: IDocument[] | null;
@@ -21,7 +22,7 @@ export const useFetch = (): [FetchFunction, UpdateFunction, FetchResponse] => {
     setResponse({ ...response, loading: true });
     try {
       const fetchDocuments = await fetch(
-        BASE_API + "?offset=" + id + "&count=" + 20
+        BASE_API + "?offset=" + id + "&count=" + NUMBER_TO_FETCH
       );
       if (!fetchDocuments.ok) {
         throw new Error("Network reponse was not OK!");

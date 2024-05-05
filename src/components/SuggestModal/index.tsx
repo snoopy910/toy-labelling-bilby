@@ -10,8 +10,8 @@ import {
   Loader,
 } from "./style";
 import CheckMark from "../../assets/check-mark.svg";
-import { SuggestLabels } from "../../consts/suggests";
-import { useOutsideAlerter } from "../../hooks/useOutsideAlerter";
+import { SuggestLabels } from "../../consts";
+import { useOutsideAlerter } from "../../hooks";
 
 interface SuggestPropsType {
   isVisible: boolean;

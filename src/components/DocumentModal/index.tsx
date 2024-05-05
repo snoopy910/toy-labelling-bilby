@@ -27,7 +27,7 @@ import {
   ResetButton,
 } from "./style";
 import CloseMark from "../../assets/close-mark.svg";
-import { DOCUMENTS, IDocument } from "../../consts";
+import { PATH, IDocument } from "../../consts";
 import { DocumentsContext } from "../../contexts";
 import { ConfirmModal } from "../ConfirmModal";
 import { SuggestModal } from "../SuggestModal";
@@ -46,7 +46,7 @@ const DefaultDocument: IDocument = {
 export const DocumentModal: React.FC = () => {
   const { id } = useParams<PathParams>();
 
-  const { documents, updateLabels } = useContext(DocumentsContext);
+  const { documents, changeLabels } = useContext(DocumentsContext);
   const [document, setDocument] = useState<IDocument>(DefaultDocument);
 
   const [label, setLabel] = useState<string>("");
@@ -62,7 +62,7 @@ export const DocumentModal: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (documents.length === 0) navigate(DOCUMENTS);
+    if (documents.length === 0) navigate(PATH.DOCUMENTS);
   }, []);
 
   useEffect(() => {
@@ -87,7 +87,7 @@ export const DocumentModal: React.FC = () => {
   };
 
   const handleSave = (id: number, labels: string[] | undefined) => {
-    updateLabels(id, labels);
+    changeLabels(id, labels);
   };
 
   const handleSuggest = (suggests: string[] | undefined) => {
@@ -121,7 +121,7 @@ export const DocumentModal: React.FC = () => {
   };
 
   const handlePageController = (id: number) => {
-    navigate(DOCUMENTS + "/" + id);
+    navigate(PATH.DOCUMENTS + "/" + id);
   };
 
   const onFirstClick = () => {
@@ -162,16 +162,16 @@ export const DocumentModal: React.FC = () => {
       handleSave(document.ID, labels);
       switch (isConfirmOpen.type) {
         case "first":
-          navigate(DOCUMENTS + "/" + 0);
+          navigate(PATH.DOCUMENTS + "/" + 0);
           break;
         case "last":
-          navigate(DOCUMENTS + "/" + (documents.length - 1));
+          navigate(PATH.DOCUMENTS + "/" + (documents.length - 1));
           break;
         case "prev":
-          navigate(DOCUMENTS + "/" + (parseInt(id) - 1));
+          navigate(PATH.DOCUMENTS + "/" + (parseInt(id) - 1));
           break;
         case "next":
-          navigate(DOCUMENTS + "/" + (parseInt(id) + 1));
+          navigate(PATH.DOCUMENTS + "/" + (parseInt(id) + 1));
       }
       setIsConfirmOpen({ status: false, type: "prev" });
     }
@@ -203,12 +203,14 @@ export const DocumentModal: React.FC = () => {
               />
             </StyledLabel>
             <SuggestButton onClick={handleClickSuggest}>Suggest</SuggestButton>
-            {isSuggestOpen && (
+            {isSuggestOpen ? (
               <SuggestModal
                 isVisible={isSuggestVisible}
                 onConfirm={handleSuggest}
                 onClose={handleSuggestClose}
               />
+            ) : (
+              <></>
             )}
           </LabelSide>
           <LabelBox>

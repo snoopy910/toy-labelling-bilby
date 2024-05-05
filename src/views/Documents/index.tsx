@@ -18,7 +18,7 @@ export const DocumentView: React.FC = () => {
       {documents.map((document, index) => {
         return (
           <div key={index}>
-            <DocumentBar ID={document.ID} title={document.title} />
+            <DocumentBar id={document.ID} title={document.title} />
           </div>
         );
       })}

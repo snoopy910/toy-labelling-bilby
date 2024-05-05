@@ -1,16 +1,16 @@
 import React from "react";
 import { Container, IDNumber, Title } from "./style";
-import { DOCUMENTS } from "../../consts";
+import { PATH } from "../../consts";
 
 interface DocumentBarPropsType {
-  ID: number;
+  id: number;
   title: string;
 }
 
-export const DocumentBar: React.FC<DocumentBarPropsType> = ({ ID, title }) => {
+export const DocumentBar: React.FC<DocumentBarPropsType> = ({ id, title }) => {
   return (
-    <Container to={DOCUMENTS + "/" + ID}>
-      <IDNumber>{ID + 1}</IDNumber>
+    <Container to={PATH.DOCUMENTS + "/" + id}>
+      <IDNumber>{id + 1}</IDNumber>
       <Title>{title}</Title>
     </Container>
   );
