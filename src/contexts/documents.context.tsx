@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState } from "react";
-import { DEFAULT_DOCUMENTS, IDocument } from "../consts/documents";
-import { useFetch } from "../hooks/useFetch";
+import { IDocument } from "../consts/documents";
+import { useFetch } from "../hooks";
 
 interface DocumentsContextProps {
   children: React.ReactNode;
@@ -25,25 +25,12 @@ export const DocumentsContext = createContext(defaultDocuments);
 export const DocumentsContextProvider: React.FC<DocumentsContextProps> = ({
   children,
 }) => {
-  const [documents, setDocuments] = useState<IDocument[]>(() => {
-    const storedDocuments = localStorage.getItem("documents") ?? "";
-    if (storedDocuments !== "[]") {
-      try {
-        return JSON.parse(storedDocuments);
-      } catch (error) {
-        console.error("Error parsing documents from LocalStorage", error);
-        return DEFAULT_DOCUMENTS.slice(0, 20);
-      }
-    } else {
-      return DEFAULT_DOCUMENTS.slice(0, 20);
-    }
-  });
-
-  const [fetchDocuments, { data, loading }] = useFetch();
+  const [fetchDocuments, updateLabelsToAPI, { data, loading }] = useFetch();
+  const [documents, setDocuments] = useState<IDocument[]>([]);
 
   useEffect(() => {
-    localStorage.setItem("documents", JSON.stringify(documents));
-  }, [documents]);
+    fetchDocuments(0);
+  }, []);
 
   useEffect(() => {
     if (!loading && data) {
@@ -58,7 +45,9 @@ export const DocumentsContextProvider: React.FC<DocumentsContextProps> = ({
       }
       return doc;
     });
+    // console.log(newLabels);
     setDocuments(updatedDocuments);
+    if (newLabels) updateLabelsToAPI(id, newLabels);
   };
 
   return (

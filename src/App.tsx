@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { DocumentModal } from "./components/DocumentModal";
 import { LayoutComponent } from "./components/Layout";
 import { PATH } from "./consts";
 import { DocumentsContextProvider } from "./contexts";
@@ -13,6 +14,7 @@ const App: React.FC = () => {
           <Routes>
             <Route path={PATH.HOME} element={<HomePage />} />
             <Route path={PATH.DOCUMENTS} element={<DocumentPage />} />
+            <Route path={PATH.DOCUMENT} element={<DocumentModal />} />
           </Routes>
         </LayoutComponent>
       </DocumentsContextProvider>

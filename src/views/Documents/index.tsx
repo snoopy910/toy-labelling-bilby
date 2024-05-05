@@ -1,39 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { Container } from "./style";
-import { DocumentBar, DocumentModal } from "../../components";
+import { DocumentBar } from "../../components/DocumentBar";
 import { DocumentsContext } from "../../contexts";
 
 export const DocumentView: React.FC = () => {
   const { documents, fetchDocuments } = useContext(DocumentsContext);
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalID, setModalID] = useState<number | null>(null);
-
-  const openModal = (id: number) => {
-    setModalID(id);
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setModalID(null);
-  };
-
-  const goToFirst = () => {
-    setModalID(0);
-  };
-
-  const goToLast = () => {
-    setModalID(documents.length - 1);
-  };
-
-  const goToPrev = (id: number) => {
-    setModalID(Math.max(id - 1, 0));
-  };
-
-  const goToNext = (id: number) => {
-    setModalID(Math.min(id + 1, documents.length - 1));
-  };
 
   const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
     const e = event.currentTarget;
@@ -47,24 +18,7 @@ export const DocumentView: React.FC = () => {
       {documents.map((document, index) => {
         return (
           <div key={index}>
-            <DocumentBar
-              id={document.ID}
-              title={document.title}
-              onClick={() => openModal(document.ID)}
-            />
-            {modalID === document.ID ? (
-              <DocumentModal
-                document={document}
-                isOpen={isModalOpen}
-                onClose={closeModal}
-                onFirst={goToFirst}
-                onLast={goToLast}
-                onPrev={() => goToPrev(document.ID)}
-                onNext={() => goToNext(document.ID)}
-              />
-            ) : (
-              <></>
-            )}
+            <DocumentBar id={document.ID} title={document.title} />
           </div>
         );
       })}
