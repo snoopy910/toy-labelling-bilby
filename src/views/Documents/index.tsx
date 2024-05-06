@@ -3,7 +3,7 @@ import { Container } from "./style";
 import { DocumentBar } from "../../components/DocumentBar";
 import { DocumentsContext } from "../../contexts";
 
-export const DocumentView: React.FC = () => {
+export const DocumentsView: React.FC = () => {
   const { documents, fetchDocuments } = useContext(DocumentsContext);
 
   const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
@@ -18,7 +18,7 @@ export const DocumentView: React.FC = () => {
       {documents.map((document, index) => {
         return (
           <div key={index}>
-            <DocumentBar id={document.ID} title={document.title} />
+            <DocumentBar document={document} />
           </div>
         );
       })}

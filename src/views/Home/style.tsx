@@ -1,11 +1,7 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  background-image: url("background.jpg");
-  background-size: cover;
-  position: relative;
-  width: 100vw;
-  height: 100vh;
+  flex: 1;
 `;
 
 export const Content = styled.div`

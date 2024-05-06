@@ -1,10 +1,9 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { DocumentModal } from "./components/DocumentModal";
-import { LayoutComponent } from "./components/Layout";
+import { LayoutComponent } from "./components";
 import { PATH } from "./consts";
 import { DocumentsContextProvider } from "./contexts";
-import { HomePage, DocumentPage } from "./pages";
+import { HomePage, DocumentBarPage, DocumentPage } from "./pages";
 
 const App: React.FC = () => {
   return (
@@ -13,8 +12,8 @@ const App: React.FC = () => {
         <LayoutComponent>
           <Routes>
             <Route path={PATH.HOME} element={<HomePage />} />
-            <Route path={PATH.DOCUMENTS} element={<DocumentPage />} />
-            <Route path={PATH.DOCUMENT} element={<DocumentModal />} />
+            <Route path={PATH.DOCUMENTS} element={<DocumentBarPage />} />
+            <Route path={PATH.DOCUMENT} element={<DocumentPage />} />
           </Routes>
         </LayoutComponent>
       </DocumentsContextProvider>

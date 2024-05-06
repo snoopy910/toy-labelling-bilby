@@ -10,8 +10,7 @@ import {
   Loader,
 } from "./style";
 import CheckMark from "../../assets/check-mark.svg";
-import { SuggestLabels } from "../../consts";
-import { useOutsideAlerter } from "../../hooks";
+import { useFetchSuggestLabels, useOutsideAlerter } from "../../hooks";
 
 interface SuggestPropsType {
   isVisible: boolean;
@@ -24,34 +23,29 @@ export const SuggestModal: React.FC<SuggestPropsType> = ({
   onConfirm,
   onClose,
 }) => {
+  const [fetchedSuggestLabels, fetchSuggestLabels] = useFetchSuggestLabels();
+
   const ref = useRef(null);
   useOutsideAlerter(ref, onClose);
 
-  const [suggestedLabels, setSuggestedLabels] = useState<string[]>([]);
-  const [isLoading, setLoading] = useState(false);
-
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(true);
-      const shuffledArray = SuggestLabels.sort(() => 0.5 - Math.random());
-      const numElements = Math.floor(Math.random() * 3) + 3;
-      setSuggestedLabels(shuffledArray.slice(0, numElements));
-    }, 1000);
-    return () => clearTimeout(timer);
+    fetchSuggestLabels();
   }, []);
 
-  const [isTickShow, SetIsTickShow] = useState<boolean[]>(
-    Array(SuggestLabels.length).fill(false)
-  );
+  useEffect(() => {
+    setIsTickShow(Array(fetchedSuggestLabels.suggestLabels.length).fill(false));
+  }, [fetchedSuggestLabels]);
+
+  const [isTickShow, setIsTickShow] = useState<boolean[]>([]);
 
   const handleClickItem = (id: number) => {
     const temp = isTickShow.map((show, index) => (index === id ? !show : show));
-    SetIsTickShow(temp);
+    setIsTickShow(temp);
   };
 
   const handleOK = () => {
     const suggests: string[] = [];
-    SuggestLabels.map((label, index) => {
+    fetchedSuggestLabels.suggestLabels.map((label, index) => {
       if (isTickShow[index]) suggests.push(label);
     });
     onConfirm(suggests);
@@ -60,13 +54,15 @@ export const SuggestModal: React.FC<SuggestPropsType> = ({
   return (
     <Setter>
       <Container ref={ref} $isvisible={isVisible}>
-        {isLoading ? (
+        {!fetchedSuggestLabels.loading ? (
           <ListItem>
-            {suggestedLabels.map((label, index) => (
+            {fetchedSuggestLabels.suggestLabels.map((label, index) => (
               <SuggestButton onClick={() => handleClickItem(index)} key={index}>
                 {label}
-                {isTickShow[index] && (
+                {isTickShow[index] ? (
                   <TickShow src={CheckMark} alt="CheckMark" />
+                ) : (
+                  <></>
                 )}
               </SuggestButton>
             ))}
