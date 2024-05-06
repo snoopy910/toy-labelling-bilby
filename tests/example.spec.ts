@@ -1,5 +1,4 @@
 import { expect, test } from "@playwright/test";
-// import { PATH } from "../src/consts";
 
 const BASE_URL = process.env.BASE_URL ?? "";
 

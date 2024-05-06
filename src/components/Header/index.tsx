@@ -1,12 +1,12 @@
 import React from "react";
 import { Container, Title, GoToDocument } from "./style";
-import { HOME, DOCUMENTS } from "../../consts";
+import { PATH } from "../../consts";
 
 export const HeaderComponent: React.FC = () => {
   return (
     <Container>
-      <Title to={HOME}>Bilby</Title>
-      <GoToDocument to={DOCUMENTS}>Documents</GoToDocument>
+      <Title to={PATH.HOME}>Bilby</Title>
+      <GoToDocument to={PATH.DOCUMENTS}>Documents</GoToDocument>
     </Container>
   );
 };

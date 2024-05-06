@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState } from "react";
 import { IDocument } from "../consts/documents";
-import { useFetch } from "../hooks";
+import { useFetchDocuments } from "../hooks";
 
 interface DocumentsContextProps {
   children: React.ReactNode;
@@ -25,7 +25,8 @@ export const DocumentsContext = createContext(defaultDocuments);
 export const DocumentsContextProvider: React.FC<DocumentsContextProps> = ({
   children,
 }) => {
-  const [fetchDocuments, updateLabelsToAPI, { data, loading }] = useFetch();
+  const [fetchDocuments, updateLabelsToAPI, { data, loading }] =
+    useFetchDocuments();
   const [documents, setDocuments] = useState<IDocument[]>([]);
 
   useEffect(() => {
@@ -45,8 +46,8 @@ export const DocumentsContextProvider: React.FC<DocumentsContextProps> = ({
       }
       return doc;
     });
-    // console.log(newLabels);
     setDocuments(updatedDocuments);
+    console.log(newLabels);
     if (newLabels) updateLabelsToAPI(id, newLabels);
   };
 

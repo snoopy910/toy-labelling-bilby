@@ -6,11 +6,7 @@ export const Container = styled.div`
   align-items: center;
   justify-content: space-around;
   z-index: 100;
-
-  position: fixed;
-  top: 40px;
-  left: 0px;
-  right: 0px;
+  padding-top: 20px;
 `;
 
 export const Title = styled(Link)`
