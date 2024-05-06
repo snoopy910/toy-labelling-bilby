@@ -47,7 +47,7 @@ export const ControlBar: React.FC<ControlBarPropsType> = ({
     type: "",
   });
 
-  const controller = useController(id, labels, document, "", setIsConfirmOpen);
+  const controller = useController(id, labels, document, setIsConfirmOpen);
 
   const onClick = (type: string) => {
     controller(type);

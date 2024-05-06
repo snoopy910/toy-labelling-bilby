@@ -12,7 +12,6 @@ export const useController = (
   id: string | undefined,
   labels: string[] | undefined,
   document: IDocument,
-  type: string,
   setIsConfirmOpen: (confirmOpenProps: ConfirmOpenPropsType) => void
 ) => {
   const navigate = useNavigate();
