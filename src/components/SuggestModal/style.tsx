@@ -15,7 +15,6 @@ export const Container = styled.div<{ $isvisible: boolean }>`
   box-shadow: 5px 5px 10px;
   padding: 10px;
   align-content: space-between;
-  /* animation-name: animatedown; */
   animation-duration: 0.5s;
   transition: opacity 0.25s ease-out, height 0.25s ease-out;
   animation-name: ${(props) =>
@@ -87,5 +86,4 @@ export const Loader = styled.div`
   justify-content: center;
   align-items: center;
   flex: 1;
-  /* align-content: center; */
 `;
