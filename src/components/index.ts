@@ -7,3 +7,4 @@ export * from "./Layout";
 export * from "./SuggestModal";
 export * from "./ControlBar";
 export * from "./LabelBar";
+export * from "./Loader";

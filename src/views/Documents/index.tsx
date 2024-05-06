@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import { Container } from "./style";
-import { DocumentBar } from "../../components/DocumentBar";
+import { DocumentBar, Loader } from "../../components";
 import { DocumentsContext } from "../../contexts";
 
 export const DocumentsView: React.FC = () => {
-  const { documents, fetchDocuments } = useContext(DocumentsContext);
+  const { documents, loading, fetchDocuments } = useContext(DocumentsContext);
 
   const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
     const e = event.currentTarget;
@@ -16,12 +16,9 @@ export const DocumentsView: React.FC = () => {
   return (
     <Container onScroll={handleScroll}>
       {documents.map((document, index) => {
-        return (
-          <div key={index}>
-            <DocumentBar document={document} />
-          </div>
-        );
+        return <DocumentBar key={index} document={document} />;
       })}
+      {loading ? <Loader /> : <></>}
     </Container>
   );
 };
