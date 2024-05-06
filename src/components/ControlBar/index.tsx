@@ -13,6 +13,7 @@ import {
 } from "./style";
 import { PATH, IDocument } from "../../consts";
 import { DocumentsContext } from "../../contexts";
+import { useController } from "../../hooks/useController";
 import { ConfirmModal } from "../ConfirmModal";
 
 type PathParams = {
@@ -43,8 +44,14 @@ export const ControlBar: React.FC<ControlBarPropsType> = ({
 
   const [isConfirmOpen, setIsConfirmOpen] = useState({
     status: false,
-    type: "prev",
+    type: "",
   });
+
+  const controller = useController(id, labels, document, "", setIsConfirmOpen);
+
+  const onClick = (type: string) => {
+    controller(type);
+  };
 
   useEffect(() => {
     if (id) {
@@ -56,40 +63,6 @@ export const ControlBar: React.FC<ControlBarPropsType> = ({
     navigate(PATH.DOCUMENTS + "/" + id);
   };
 
-  const onFirstClick = () => {
-    if (labels?.toString() !== document.label?.toString()) {
-      setIsConfirmOpen({ status: true, type: "first" });
-    } else {
-      handlePageController(0);
-    }
-  };
-
-  const onLastClick = () => {
-    if (labels?.toString() !== document.label?.toString()) {
-      setIsConfirmOpen({ status: true, type: "last" });
-    } else {
-      handlePageController(documents.length - 1);
-    }
-  };
-
-  const onPrevClick = () => {
-    console.log(labels, document.label);
-    if (labels?.toString() !== document.label?.toString()) {
-      setIsConfirmOpen({ status: true, type: "prev" });
-    } else {
-      if (id) handlePageController(Math.max(parseInt(id) - 1, 0));
-    }
-  };
-
-  const onNextClick = () => {
-    if (labels?.toString() !== document.label?.toString()) {
-      setIsConfirmOpen({ status: true, type: "next" });
-    } else {
-      if (id)
-        handlePageController(Math.min(parseInt(id) + 1, documents.length - 1));
-    }
-  };
-
   const handleConfirm = () => {
     if (id) {
       handleSave(document.id, labels);
@@ -98,7 +71,7 @@ export const ControlBar: React.FC<ControlBarPropsType> = ({
           handlePageController(0);
           break;
         case "last":
-          handlePageController(Math.max(parseInt(id) - 1, 0));
+          handlePageController(documents.length - 1);
           break;
         case "prev":
           handlePageController(Math.max(parseInt(id) - 1, 0));
@@ -108,12 +81,12 @@ export const ControlBar: React.FC<ControlBarPropsType> = ({
             Math.min(parseInt(id) + 1, documents.length - 1)
           );
       }
-      setIsConfirmOpen({ status: false, type: "prev" });
+      setIsConfirmOpen({ status: false, type: "" });
     }
   };
 
   const handleConfirmCancel = () => {
-    setIsConfirmOpen({ status: false, type: "prev" });
+    setIsConfirmOpen({ status: false, type: "" });
   };
 
   const handleSave = (id: number, labels: string[] | undefined) => {
@@ -124,10 +97,10 @@ export const ControlBar: React.FC<ControlBarPropsType> = ({
   return (
     <ControlBarLayout>
       <MoveController>
-        <First onClick={onFirstClick}>&lt;&lt;</First>
-        <Prev onClick={onPrevClick}>&lt;</Prev>
-        <Next onClick={onNextClick}>&gt;</Next>
-        <Last onClick={onLastClick}>&gt;&gt;</Last>
+        <First onClick={() => onClick("first")}>&lt;&lt;</First>
+        <Prev onClick={() => onClick("prev")}>&lt;</Prev>
+        <Next onClick={() => onClick("next")}>&gt;</Next>
+        <Last onClick={() => onClick("last")}>&gt;&gt;</Last>
         {isConfirmOpen.status && (
           <ConfirmModal
             onConfirm={handleConfirm}
