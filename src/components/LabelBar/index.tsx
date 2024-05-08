@@ -11,8 +11,8 @@ import {
   RemoveButton,
   CloseSVG,
 } from "./style";
-import CloseMark from "../../assets/close-mark.svg";
-import { SuggestModal } from "../../components";
+import CloseMark from "assets/close-mark.svg";
+import { SuggestModal } from "components";
 
 interface LabelBarPropsType {
   labels: string[] | undefined;
@@ -40,8 +40,12 @@ export const LabelBar: React.FC<LabelBarPropsType> = ({
   };
 
   const handleClickSuggest = () => {
-    setIsSuggestVisible(true);
-    setIsSuggestOpen(true);
+    if (!isSuggestOpen && !isSuggestVisible) {
+      setIsSuggestVisible(true);
+      setIsSuggestOpen(true);
+    } else {
+      handleSuggestClose();
+    }
   };
 
   const handleSuggest = (suggests: string[] | undefined) => {
@@ -69,8 +73,9 @@ export const LabelBar: React.FC<LabelBarPropsType> = ({
     <LabelContainer>
       <LabelSide>
         <StyledLabel>
-          <Label htmlFor="text">Label</Label>
+          <Label htmlFor="id">Label</Label>
           <LabelInput
+            id="id"
             type="text"
             value={label}
             onChange={handleChange}

@@ -9,7 +9,7 @@ export const Screen = styled.div`
 
 export const Container = styled.div`
   background-color: white;
-  position: fixed;
+  position: absolute;
   top: 200px;
   left: 25%;
   width: 50%;

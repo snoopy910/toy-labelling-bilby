@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { IDocument, NUMBER_TO_FETCH, SuggestLabels } from "../consts";
+import { IDocument, NUMBER_TO_FETCH, SuggestLabels } from "consts";
 
 interface FetchedDocuments {
   data: IDocument[] | null;
@@ -46,7 +46,7 @@ export const useFetchDocuments = (): [
   const updateLabelsToAPI = async (id: number, labels: string[]) => {
     try {
       await fetch(`${import.meta.env.VITE_FETCH_URL}/${id}`, {
-        method: "POST",
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },

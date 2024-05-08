@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Container } from "./style";
-import { DocumentBar, Loader } from "../../components";
+import { DocumentBar, Loader } from "components";
 import { DocumentsContext } from "../../contexts";
 
 export const DocumentsView: React.FC = () => {

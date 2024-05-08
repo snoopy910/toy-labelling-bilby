@@ -6,12 +6,7 @@ export const Container = styled(Link)`
   height: fit-content;
   width: 80%;
   margin: auto;
-  padding: 10px;
-  padding-left: 20px;
-  padding-right: 20px;
-  align-content: center;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  padding: 10px 20px;
   border: 1px solid grey;
   border-radius: 10px;
   cursor: pointer;

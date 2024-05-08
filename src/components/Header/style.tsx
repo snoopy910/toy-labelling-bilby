@@ -6,7 +6,7 @@ export const Container = styled.div`
   align-items: center;
   justify-content: space-around;
   z-index: 100;
-  padding-top: 20px;
+  padding: 20px;
 `;
 
 export const Title = styled(Link)`
@@ -18,7 +18,6 @@ export const Title = styled(Link)`
 `;
 
 export const GoToDocument = styled(Link)`
-  text-align: center;
   font-size: 32px;
   color: black;
   &:hover {

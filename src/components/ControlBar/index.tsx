@@ -11,10 +11,10 @@ import {
   SaveButton,
   ResetButton,
 } from "./style";
-import { PATH, IDocument } from "../../consts";
-import { DocumentsContext } from "../../contexts";
-import { useController } from "../../hooks/useController";
-import { ConfirmModal } from "../ConfirmModal";
+import { PATH, IDocument } from "consts";
+import { DocumentsContext } from "contexts";
+import { useController } from "hooks/useController";
+import { ConfirmModal } from "components/ConfirmModal";
 
 type PathParams = {
   id: string;
@@ -47,7 +47,13 @@ export const ControlBar: React.FC<ControlBarPropsType> = ({
     type: "",
   });
 
-  const controller = useController(id, labels, document, setIsConfirmOpen);
+  const controller = useController(
+    id,
+    documents.length,
+    labels,
+    document,
+    setIsConfirmOpen
+  );
 
   const onClick = (type: string) => {
     controller(type);
@@ -60,7 +66,7 @@ export const ControlBar: React.FC<ControlBarPropsType> = ({
   }, [id, documents]);
 
   const handlePageController = (id: number) => {
-    navigate(PATH.DOCUMENTS + "/" + id);
+    navigate(`${PATH.DOCUMENTS}/${id}`);
   };
 
   const handleConfirm = () => {
@@ -90,8 +96,9 @@ export const ControlBar: React.FC<ControlBarPropsType> = ({
   };
 
   const handleSave = (id: number, labels: string[] | undefined) => {
-    console.log(id);
-    changeLabels(id, labels);
+    if (document.label !== labels) {
+      changeLabels(id, labels);
+    }
   };
 
   return (

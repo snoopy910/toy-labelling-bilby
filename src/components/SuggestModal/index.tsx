@@ -9,8 +9,8 @@ import {
   ConfirmButton,
   Loader,
 } from "./style";
-import CheckMark from "../../assets/check-mark.svg";
-import { useFetchSuggestLabels, useOutsideAlerter } from "../../hooks";
+import CheckMark from "assets/check-mark.svg";
+import { useFetchSuggestLabels, useOutsideAlerter } from "hooks";
 
 interface SuggestPropsType {
   isVisible: boolean;

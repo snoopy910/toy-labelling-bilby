@@ -1,6 +1,6 @@
 import React from "react";
 import { Container, IDNumber, Title } from "./style";
-import { IDocument, PATH } from "../../consts";
+import { IDocument, PATH } from "consts";
 
 interface DocumentBarPropsType {
   document: IDocument;

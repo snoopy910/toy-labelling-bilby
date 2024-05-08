@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
 export const Footer = styled.div`
-  width: 100%;
   display: flex;
+  width: 100%;
   bottom: 0px;
-  margin-bottom: 10px;
+  padding: 10px;
   z-index: 100;
 `;
 

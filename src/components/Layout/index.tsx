@@ -1,6 +1,6 @@
 import React from "react";
 import { FooterComponent } from "../Footer";
-import { HeaderComponent } from "../Header";
+import { HeaderComponent } from "components/Header";
 import { Layout } from "./style";
 
 interface LayoutProps {

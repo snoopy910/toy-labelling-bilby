@@ -1,7 +1,5 @@
-import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { IDocument, PATH } from "../consts";
-import { DocumentsContext } from "../contexts";
+import { IDocument, PATH } from "consts";
 
 interface ConfirmOpenPropsType {
   status: boolean;
@@ -10,12 +8,12 @@ interface ConfirmOpenPropsType {
 
 export const useController = (
   id: string | undefined,
+  length: number,
   labels: string[] | undefined,
   document: IDocument,
   setIsConfirmOpen: (confirmOpenProps: ConfirmOpenPropsType) => void
 ) => {
   const navigate = useNavigate();
-  const { documents } = useContext(DocumentsContext);
 
   const handlePageController = (id: number) => {
     navigate(PATH.DOCUMENTS + "/" + id);
@@ -27,13 +25,13 @@ export const useController = (
         handlePageController(0);
         break;
       case "last":
-        handlePageController(documents.length - 1);
+        handlePageController(length - 1);
         break;
       case "prev":
         handlePageController(Math.max(parseInt(id) - 1, 0));
         break;
       case "next":
-        handlePageController(Math.min(parseInt(id) + 1, documents.length - 1));
+        handlePageController(Math.min(parseInt(id) + 1, length - 1));
     }
   };
 

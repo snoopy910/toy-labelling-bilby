@@ -47,7 +47,7 @@ export const DocumentView: React.FC = () => {
   return (
     <Screen>
       <Container>
-        <Title>{document.title}</Title>
+        <Title>{`${document.id + 1} ${document.title}`}</Title>
         <Body>{document.body}</Body>
         <GoToArticle>
           <a href={document.url} target="_blank">

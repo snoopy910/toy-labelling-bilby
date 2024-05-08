@@ -51,6 +51,12 @@ module.exports = {
       },
     ],
     "import/no-named-as-default": 0,
+    "import/resolver": {
+      alias: {
+        map: [["", "./src"]],
+        extensions: [".ts", ".tsx"],
+      },
+    },
     "react-refresh/only-export-components": [
       "warn",
       { allowConstantExport: true },

@@ -15,9 +15,8 @@ export const Container = styled.div`
   top: 300px;
   left: 30%;
   width: 40%;
-  background-color: white;
   height: fit-content;
-  box-shadow: 5px, 5px, 10px;
+  background-color: white;
   padding: 20px;
   display: grid;
   gap: 20px;

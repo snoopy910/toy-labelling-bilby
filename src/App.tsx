@@ -1,9 +1,9 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { LayoutComponent } from "./components";
-import { PATH } from "./consts";
-import { DocumentsContextProvider } from "./contexts";
-import { HomePage, DocumentBarPage, DocumentPage } from "./pages";
+import { DocumentsContextProvider } from "contexts";
+import { PATH } from "consts";
+import { HomePage, DocumentBarPage, DocumentPage } from "pages";
+import { LayoutComponent } from "components";
 
 const App: React.FC = () => {
   return (

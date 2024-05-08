@@ -5,16 +5,16 @@ export const Container = styled.div`
 `;
 
 export const Content = styled.div`
-  position: relative;
-  top: 300px;
-  left: 25vw;
-  width: 50vw;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+  gap: 50px;
 `;
 
 export const Title = styled.div`
   font-size: 48px;
   font-weight: bolder;
-  margin-bottom: 50px;
 `;
 
 export const Description = styled.div`
