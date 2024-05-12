@@ -1,22 +1,21 @@
 import React, { createContext, useEffect, useState } from "react";
 import { IDocument } from "consts/documents";
-import { useFetchDocuments } from "hooks";
+import { useFetchDocumentsWithQuery, updateLabelsToAPI } from "hooks";
 
 interface DocumentsContextProps {
   children: React.ReactNode;
+  id: number;
 }
 
 interface DocumentsContextType {
   documents: IDocument[];
-  loading: boolean;
-  fetchDocuments: (id: number) => void;
+  isLoading: boolean;
   changeLabels: (id: number, labels: string[] | undefined) => void;
 }
 
 const defaultDocuments: DocumentsContextType = {
   documents: [],
-  loading: false,
-  fetchDocuments: () => {},
+  isLoading: false,
   changeLabels: () => {},
 };
 
@@ -24,20 +23,21 @@ export const DocumentsContext = createContext(defaultDocuments);
 
 export const DocumentsContextProvider: React.FC<DocumentsContextProps> = ({
   children,
+  id,
 }) => {
-  const [fetchDocuments, updateLabelsToAPI, { data, loading }] =
-    useFetchDocuments();
   const [documents, setDocuments] = useState<IDocument[]>([]);
 
+  const { isLoading, data } = useFetchDocumentsWithQuery(id);
+
   useEffect(() => {
-    fetchDocuments(0);
+    if (!isLoading) setDocuments(data);
   }, []);
 
   useEffect(() => {
-    if (!loading && data) {
+    if (!isLoading && data) {
       setDocuments((prevDocuments) => [...prevDocuments, ...data]);
     }
-  }, [data, loading]);
+  }, [data, isLoading]);
 
   const changeLabels = (id: number, newLabels: string[] | undefined) => {
     const updatedDocuments = documents.map((doc, index) =>
@@ -54,8 +54,7 @@ export const DocumentsContextProvider: React.FC<DocumentsContextProps> = ({
     <DocumentsContext.Provider
       value={{
         documents,
-        loading,
-        fetchDocuments,
+        isLoading,
         changeLabels,
       }}
     >

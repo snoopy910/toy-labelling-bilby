@@ -3,13 +3,17 @@ import { Container } from "./style";
 import { DocumentBar, Loader } from "components";
 import { DocumentsContext } from "../../contexts";
 
-export const DocumentsView: React.FC = () => {
-  const { documents, loading, fetchDocuments } = useContext(DocumentsContext);
+interface DocumentsViewProps {
+  setId: React.Dispatch<React.SetStateAction<number>>;
+}
+
+export const DocumentsView: React.FC<DocumentsViewProps> = ({ setId }) => {
+  const { documents, isLoading } = useContext(DocumentsContext);
 
   const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
     const e = event.currentTarget;
     if (e.scrollHeight - e.scrollTop === e.clientHeight) {
-      fetchDocuments(documents.length);
+      setId((prevId) => prevId + 20);
     }
   };
 
@@ -18,7 +22,7 @@ export const DocumentsView: React.FC = () => {
       {documents.map((document, index) => {
         return <DocumentBar key={index} document={document} />;
       })}
-      {loading ? <Loader /> : <></>}
+      {isLoading ? <Loader /> : <></>}
     </Container>
   );
 };

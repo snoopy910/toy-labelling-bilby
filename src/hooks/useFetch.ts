@@ -1,70 +1,46 @@
 import { useState } from "react";
-import { IDocument, NUMBER_TO_FETCH, SuggestLabels } from "consts";
+import { NUMBER_TO_FETCH, SuggestLabels } from "consts";
+import { useQuery } from "@tanstack/react-query";
 
-interface FetchedDocuments {
-  data: IDocument[] | null;
-  loading: boolean;
-  error: string | null;
-}
-
-type FetchDocumentsFunction = (id: number) => void;
-type UpdateLabelsFunction = (id: number, labels: string[]) => void;
-
-export const useFetchDocuments = (): [
-  FetchDocumentsFunction,
-  UpdateLabelsFunction,
-  FetchedDocuments
-] => {
-  const [fetchedDocuments, setFetchedDocuments] = useState<FetchedDocuments>({
-    data: null,
-    loading: false,
-    error: null,
-  });
-
-  const fetchDocuments: FetchDocumentsFunction = async (id: number) => {
-    setFetchedDocuments({ ...fetchedDocuments, loading: true });
-    try {
-      const fetchDocuments = await fetch(
+export const useFetchDocumentsWithQuery = (id: number) => {
+  return useQuery({
+    queryKey: ["documents", id],
+    queryFn: () =>
+      fetch(
         `${
           import.meta.env.VITE_FETCH_URL
         }?offset=${id}&count=${NUMBER_TO_FETCH}`
-      );
-      if (!fetchDocuments.ok) {
-        throw new Error("Network reponse was not OK!");
-      }
-      const result = await fetchDocuments.json();
-      setFetchedDocuments({ data: result, loading: false, error: null });
-    } catch (error) {
-      setFetchedDocuments({
-        ...fetchedDocuments,
-        loading: false,
-        error: "An error occured.",
-      });
-    }
-  };
+      ).then((res) => res.json()),
+  });
+};
 
-  const updateLabelsToAPI = async (id: number, labels: string[]) => {
-    try {
-      await fetch(`${import.meta.env.VITE_FETCH_URL}/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ labels: labels }),
-      }).then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not OK!");
-        }
-      });
-    } catch (error) {
-      setFetchedDocuments({
-        ...fetchedDocuments,
-        loading: false,
-        error: "An error occured.",
-      });
+// export const useUpdateLabelsWithQuery = (id: number, newLabels: string[]) => {
+//   return useMutation({
+//     mutationKey: ["labels", id],
+//     mutationFn: () => {
+//       return fetch(`${import.meta.env.VITE_FETCH_URL}/${id}`, {
+//         method: "PUT",
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify({ labels: newLabels }),
+//       });
+//     },
+//   });
+// };
+
+export const updateLabelsToAPI = async (id: number, labels: string[]) => {
+  fetch(`${import.meta.env.VITE_FETCH_URL}/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ labels: labels }),
+  }).then((response) => {
+    if (!response.ok) {
+      throw new Error("Network response was not OK!");
     }
-  };
-  return [fetchDocuments, updateLabelsToAPI, fetchedDocuments];
+  });
 };
 
 export interface FetchedSuggestLabels {
