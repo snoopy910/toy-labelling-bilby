@@ -14,6 +14,25 @@ export const useFetchDocumentsWithQuery = (id: number) => {
   });
 };
 
+export const useFetchDocumentWithQuery = (id: number) => {
+  return useQuery({
+    queryKey: ["document", id],
+    queryFn: async () => {
+      const response = await fetch(`${import.meta.env.VITE_FETCH_URL}/${id}`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch document");
+      }
+      return await response.json();
+    },
+  });
+  // fetch(`${import.meta.env.VITE_FETCH_URL}/${id}`, {
+  //   method: "GET",
+  // }).then((response) => {
+  //   if (!response.ok) {
+  //     throw new Error("Network response was not OK!");
+  //   }
+  // });
+};
 // export const useUpdateLabelsWithQuery = (id: number, newLabels: string[]) => {
 //   return useMutation({
 //     mutationKey: ["labels", id],

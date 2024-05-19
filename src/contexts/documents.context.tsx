@@ -10,13 +10,17 @@ interface DocumentsContextProps {
 interface DocumentsContextType {
   documents: IDocument[];
   isLoading: boolean;
-  changeLabels: (id: number, labels: string[] | undefined) => void;
+  length: number;
+  updateLabels: (id: number, labels: string[] | undefined) => void;
+  updateCurrentId: (id: number) => void;
 }
 
 const defaultDocuments: DocumentsContextType = {
   documents: [],
   isLoading: false,
-  changeLabels: () => {},
+  length: 0,
+  updateLabels: () => {},
+  updateCurrentId: () => {},
 };
 
 export const DocumentsContext = createContext(defaultDocuments);
@@ -26,6 +30,8 @@ export const DocumentsContextProvider: React.FC<DocumentsContextProps> = ({
   id,
 }) => {
   const [documents, setDocuments] = useState<IDocument[]>([]);
+  const [length, setLength] = useState<number>(0);
+  const [currentId, setCurrentId] = useState(0);
 
   const { isLoading, data } = useFetchDocumentsWithQuery(id);
 
@@ -39,7 +45,15 @@ export const DocumentsContextProvider: React.FC<DocumentsContextProps> = ({
     }
   }, [data, isLoading]);
 
-  const changeLabels = (id: number, newLabels: string[] | undefined) => {
+  useEffect(() => {
+    setLength(Math.max(length, currentId + 1, documents.length));
+  }, [currentId, documents]);
+
+  const updateCurrentId = (id: number) => {
+    setCurrentId(id);
+  };
+
+  const updateLabels = (id: number, newLabels: string[] | undefined) => {
     const updatedDocuments = documents.map((doc, index) =>
       index === id ? { ...doc, label: newLabels } : doc
     );
@@ -55,7 +69,9 @@ export const DocumentsContextProvider: React.FC<DocumentsContextProps> = ({
       value={{
         documents,
         isLoading,
-        changeLabels,
+        length,
+        updateLabels,
+        updateCurrentId,
       }}
     >
       {children}

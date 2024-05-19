@@ -20,27 +20,21 @@ type PathParams = {
   id: string;
 };
 
-const DefaultDocument: IDocument = {
-  id: 0,
-  title: "",
-  body: "",
-  url: "",
-};
-
 interface ControlBarPropsType {
   labels: string[] | undefined;
+  document: IDocument;
   handleReset: (id: number) => void;
 }
 
 export const ControlBar: React.FC<ControlBarPropsType> = ({
   labels,
+  document,
   handleReset,
 }) => {
   const navigate = useNavigate();
 
   const { id } = useParams<PathParams>();
-  const { documents, changeLabels } = useContext(DocumentsContext);
-  const [document, setDocument] = useState<IDocument>(DefaultDocument);
+  const { length, updateLabels } = useContext(DocumentsContext);
 
   const [isConfirmOpen, setIsConfirmOpen] = useState({
     status: false,
@@ -49,7 +43,7 @@ export const ControlBar: React.FC<ControlBarPropsType> = ({
 
   const controller = useController(
     id,
-    documents.length,
+    length,
     labels,
     document,
     setIsConfirmOpen
@@ -59,11 +53,13 @@ export const ControlBar: React.FC<ControlBarPropsType> = ({
     controller(type);
   };
 
-  useEffect(() => {
-    if (id) {
-      setDocument(documents[parseInt(id)]);
-    }
-  }, [id, documents]);
+  // useEffect(() => {
+  //   if (id) {
+  //     setDocument(documents[parseInt(id)]);
+  //   }
+  // }, [id, documents]);
+
+  useEffect(() => {}, []);
 
   const handlePageController = (id: number) => {
     navigate(`${PATH.DOCUMENTS}/${id}`);
@@ -77,15 +73,13 @@ export const ControlBar: React.FC<ControlBarPropsType> = ({
           handlePageController(0);
           break;
         case "last":
-          handlePageController(documents.length - 1);
+          handlePageController(length - 1);
           break;
         case "prev":
           handlePageController(Math.max(parseInt(id) - 1, 0));
           break;
         case "next":
-          handlePageController(
-            Math.min(parseInt(id) + 1, documents.length - 1)
-          );
+          handlePageController(Math.min(parseInt(id) + 1, length - 1));
       }
       setIsConfirmOpen({ status: false, type: "" });
     }
@@ -97,7 +91,7 @@ export const ControlBar: React.FC<ControlBarPropsType> = ({
 
   const handleSave = (id: number, labels: string[] | undefined) => {
     if (document.label !== labels) {
-      changeLabels(id, labels);
+      updateLabels(id, labels);
     }
   };
 

@@ -16,7 +16,7 @@ export const useController = (
   const navigate = useNavigate();
 
   const handlePageController = (id: number) => {
-    navigate(PATH.DOCUMENTS + "/" + id);
+    navigate(`${PATH.DOCUMENTS}/${id}`);
   };
 
   const handleNavigator = (id: string, type: string) => {
@@ -32,6 +32,7 @@ export const useController = (
         break;
       case "next":
         handlePageController(Math.min(parseInt(id) + 1, length - 1));
+        handlePageController(Math.min(parseInt(id) + 1));
     }
   };
 

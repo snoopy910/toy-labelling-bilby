@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Screen, Container, Title, Body, GoToArticle } from "./style";
 import { ControlBar, LabelBar } from "../../components";
-import { PATH, IDocument } from "../../consts";
-import { DocumentsContext } from "../../contexts";
+import { IDocument } from "../../consts";
+import { useFetchDocumentWithQuery } from "hooks";
+import { DocumentsContext } from "contexts";
 
 type PathParams = {
   id: string;
@@ -17,46 +18,52 @@ const DefaultDocument: IDocument = {
 };
 
 export const DocumentView: React.FC = () => {
-  const { id } = useParams<PathParams>();
-
-  const { documents } = useContext(DocumentsContext);
   const [document, setDocument] = useState<IDocument>(DefaultDocument);
-
   const [labels, setLabels] = useState<string[] | undefined>([]);
 
-  const navigate = useNavigate();
+  const { id } = useParams<PathParams>();
+  const { updateCurrentId } = useContext(DocumentsContext);
+  const { data, isLoading, error } = useFetchDocumentWithQuery(
+    parseInt(id ?? "")
+  );
 
   useEffect(() => {
-    if (documents.length === 0) navigate(PATH.DOCUMENTS);
-  }, [documents, navigate]);
-
-  useEffect(() => {
-    if (id) {
-      setDocument(documents[parseInt(id)]);
+    if (data) {
+      setDocument(data);
+      setLabels(data.label);
+      updateCurrentId(parseInt(id ?? ""));
     }
-  }, [id, documents]);
+  }, [data]);
 
-  useEffect(() => {
-    setLabels(document.label);
-  }, [document]);
-
-  const handleReset = (id: number) => {
-    setLabels(documents[id].label);
+  const handleReset = () => {
+    setLabels(data.label);
   };
 
   return (
-    <Screen>
-      <Container>
-        <Title>{`${document.id + 1} ${document.title}`}</Title>
-        <Body>{document.body}</Body>
-        <GoToArticle>
-          <a href={document.url} target="_blank">
-            Go To Article -&gt;
-          </a>
-        </GoToArticle>
-        <LabelBar labels={labels} setLabels={setLabels} />
-        <ControlBar labels={labels} handleReset={handleReset} />
-      </Container>
-    </Screen>
+    <>
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : !error ? (
+        <Screen>
+          <Container>
+            <Title>{`${document.id + 1} ${document.title}`}</Title>
+            <Body>{document.body}</Body>
+            <GoToArticle>
+              <a href={document.url} target="_blank">
+                Go To Article -&gt;
+              </a>
+            </GoToArticle>
+            <LabelBar labels={labels} setLabels={setLabels} />
+            <ControlBar
+              labels={labels}
+              document={document}
+              handleReset={handleReset}
+            />
+          </Container>
+        </Screen>
+      ) : (
+        <p>{error.message}</p>
+      )}
+    </>
   );
 };
