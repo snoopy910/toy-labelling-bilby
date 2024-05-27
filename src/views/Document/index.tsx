@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Screen, Container, Title, Body, GoToArticle } from "./style";
-import { ControlBar, LabelBar } from "../../components";
-import { IDocument } from "../../consts";
-import { useFetchDocumentWithQuery } from "hooks";
+import { ControlBar, LabelBar, Loader } from "components";
+import { IDocument } from "consts";
 import { DocumentsContext } from "contexts";
+import { useFetchDocumentWithQuery } from "hooks";
+import { Screen, Container, Title, Body, GoToArticle } from "./style";
 
 type PathParams = {
   id: string;
@@ -33,7 +33,7 @@ export const DocumentView: React.FC = () => {
       setLabels(data.label);
       updateCurrentId(parseInt(id ?? ""));
     }
-  }, [data]);
+  }, [data, id, updateCurrentId]);
 
   const handleReset = () => {
     setLabels(data.label);
@@ -42,7 +42,7 @@ export const DocumentView: React.FC = () => {
   return (
     <>
       {isLoading ? (
-        <p>Loading...</p>
+        <Loader />
       ) : !error ? (
         <Screen>
           <Container>

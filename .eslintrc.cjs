@@ -11,7 +11,7 @@ module.exports = {
   ],
   ignorePatterns: ["dist", ".eslintrc.cjs"],
   parser: "@typescript-eslint/parser",
-  plugins: ["react-refresh", "import"],
+  plugins: ["eslint-plugin-import", "react-refresh", "import"],
   rules: {
     "import/order": [
       1,
@@ -26,11 +26,23 @@ module.exports = {
         ],
         pathGroups: [
           {
+            pattern: "consts",
+            group: "internal",
+          },
+          {
             pattern: "components",
             group: "internal",
           },
           {
-            pattern: "common",
+            pattern: "contexts",
+            group: "internal",
+          },
+          {
+            pattern: "pages",
+            group: "internal",
+          },
+          {
+            pattern: "hooks",
             group: "internal",
           },
           {
@@ -50,16 +62,19 @@ module.exports = {
         },
       },
     ],
+    "import/no-unresolved": [2, {}],
     "import/no-named-as-default": 0,
-    "import/resolver": {
-      alias: {
-        map: [["", "./src"]],
-        extensions: [".ts", ".tsx"],
-      },
-    },
     "react-refresh/only-export-components": [
       "warn",
       { allowConstantExport: true },
     ],
+  },
+  settings: {
+    "import/resolver": {
+      node: {
+        extensions: [".ts", ".tsx"],
+        moduleDirectory: ["node_modules", "src/"],
+      },
+    },
   },
 };

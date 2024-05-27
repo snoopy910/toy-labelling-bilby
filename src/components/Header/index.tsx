@@ -1,6 +1,6 @@
 import React from "react";
-import { Container, Title, GoToDocument } from "./style";
 import { PATH } from "consts";
+import { Container, Title, GoToDocument } from "./style";
 
 export const HeaderComponent: React.FC = () => {
   return (

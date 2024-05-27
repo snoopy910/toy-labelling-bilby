@@ -1,6 +1,5 @@
-import React from "react";
-import { Loading } from "./style";
+import { StyledLoader } from "./style";
 
-export const Loader: React.FC = () => {
-  return <Loading>Loading...</Loading>;
+export const Loader = () => {
+  return <StyledLoader />;
 };

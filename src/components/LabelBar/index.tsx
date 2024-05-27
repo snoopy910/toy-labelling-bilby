@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import CloseMark from "assets/close-mark.svg";
+import { SuggestModal } from "components";
 import {
   LabelContainer,
   Label,
@@ -11,8 +13,6 @@ import {
   RemoveButton,
   CloseSVG,
 } from "./style";
-import CloseMark from "assets/close-mark.svg";
-import { SuggestModal } from "components";
 
 interface LabelBarPropsType {
   labels: string[] | undefined;

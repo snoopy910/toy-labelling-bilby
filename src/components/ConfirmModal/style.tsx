@@ -11,14 +11,12 @@ export const Screen = styled.div`
 `;
 
 export const Container = styled.div`
-  position: fixed;
-  top: 300px;
-  left: 30%;
-  width: 40%;
+  display: grid;
   height: fit-content;
+  width: 600px;
+  margin: 300px auto;
   background-color: white;
   padding: 20px;
-  display: grid;
   gap: 20px;
 `;
 

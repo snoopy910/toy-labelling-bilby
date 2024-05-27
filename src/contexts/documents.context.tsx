@@ -4,39 +4,43 @@ import { useFetchDocumentsWithQuery, updateLabelsToAPI } from "hooks";
 
 interface DocumentsContextProps {
   children: React.ReactNode;
-  id: number;
 }
 
 interface DocumentsContextType {
+  id: number;
   documents: IDocument[];
   isLoading: boolean;
   length: number;
   updateLabels: (id: number, labels: string[] | undefined) => void;
   updateCurrentId: (id: number) => void;
+  setId: (id: number) => void;
 }
 
 const defaultDocuments: DocumentsContextType = {
+  id: 0,
   documents: [],
   isLoading: false,
   length: 0,
   updateLabels: () => {},
   updateCurrentId: () => {},
+  setId: () => {},
 };
 
 export const DocumentsContext = createContext(defaultDocuments);
 
 export const DocumentsContextProvider: React.FC<DocumentsContextProps> = ({
   children,
-  id,
 }) => {
   const [documents, setDocuments] = useState<IDocument[]>([]);
   const [length, setLength] = useState<number>(0);
   const [currentId, setCurrentId] = useState(0);
+  const [id, setId] = useState(0);
 
   const { isLoading, data } = useFetchDocumentsWithQuery(id);
 
   useEffect(() => {
     if (!isLoading) setDocuments(data);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -47,6 +51,7 @@ export const DocumentsContextProvider: React.FC<DocumentsContextProps> = ({
 
   useEffect(() => {
     setLength(Math.max(length, currentId + 1, documents.length));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentId, documents]);
 
   const updateCurrentId = (id: number) => {
@@ -57,6 +62,7 @@ export const DocumentsContextProvider: React.FC<DocumentsContextProps> = ({
     const updatedDocuments = documents.map((doc, index) =>
       index === id ? { ...doc, label: newLabels } : doc
     );
+    console.log(updatedDocuments);
     setDocuments(updatedDocuments);
 
     if (newLabels) {
@@ -67,11 +73,13 @@ export const DocumentsContextProvider: React.FC<DocumentsContextProps> = ({
   return (
     <DocumentsContext.Provider
       value={{
+        id,
         documents,
         isLoading,
         length,
         updateLabels,
         updateCurrentId,
+        setId,
       }}
     >
       {children}

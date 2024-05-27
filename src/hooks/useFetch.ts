@@ -1,6 +1,6 @@
+import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { NUMBER_TO_FETCH, SuggestLabels } from "consts";
-import { useQuery } from "@tanstack/react-query";
 
 export const useFetchDocumentsWithQuery = (id: number) => {
   return useQuery({
@@ -25,28 +25,7 @@ export const useFetchDocumentWithQuery = (id: number) => {
       return await response.json();
     },
   });
-  // fetch(`${import.meta.env.VITE_FETCH_URL}/${id}`, {
-  //   method: "GET",
-  // }).then((response) => {
-  //   if (!response.ok) {
-  //     throw new Error("Network response was not OK!");
-  //   }
-  // });
 };
-// export const useUpdateLabelsWithQuery = (id: number, newLabels: string[]) => {
-//   return useMutation({
-//     mutationKey: ["labels", id],
-//     mutationFn: () => {
-//       return fetch(`${import.meta.env.VITE_FETCH_URL}/${id}`, {
-//         method: "PUT",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify({ labels: newLabels }),
-//       });
-//     },
-//   });
-// };
 
 export const updateLabelsToAPI = async (id: number, labels: string[]) => {
   fetch(`${import.meta.env.VITE_FETCH_URL}/${id}`, {

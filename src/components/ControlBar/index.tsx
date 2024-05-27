@@ -1,5 +1,9 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { ConfirmModal } from "components/ConfirmModal";
+import { PATH, IDocument } from "consts";
+import { DocumentsContext } from "contexts";
+import { useController } from "hooks/useController";
 import {
   ControlBarLayout,
   MoveController,
@@ -11,10 +15,6 @@ import {
   SaveButton,
   ResetButton,
 } from "./style";
-import { PATH, IDocument } from "consts";
-import { DocumentsContext } from "contexts";
-import { useController } from "hooks/useController";
-import { ConfirmModal } from "components/ConfirmModal";
 
 type PathParams = {
   id: string;
@@ -52,14 +52,6 @@ export const ControlBar: React.FC<ControlBarPropsType> = ({
   const onClick = (type: string) => {
     controller(type);
   };
-
-  // useEffect(() => {
-  //   if (id) {
-  //     setDocument(documents[parseInt(id)]);
-  //   }
-  // }, [id, documents]);
-
-  useEffect(() => {}, []);
 
   const handlePageController = (id: number) => {
     navigate(`${PATH.DOCUMENTS}/${id}`);

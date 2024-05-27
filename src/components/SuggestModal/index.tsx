@@ -1,4 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
+import CheckMark from "assets/check-mark.svg";
+import { Loader } from "components";
+import { useFetchSuggestLabels, useOutsideAlerter } from "hooks";
 import {
   Setter,
   Container,
@@ -7,10 +10,7 @@ import {
   TickShow,
   ModalFooter,
   ConfirmButton,
-  Loader,
 } from "./style";
-import CheckMark from "assets/check-mark.svg";
-import { useFetchSuggestLabels, useOutsideAlerter } from "hooks";
 
 interface SuggestPropsType {
   isVisible: boolean;
@@ -30,6 +30,7 @@ export const SuggestModal: React.FC<SuggestPropsType> = ({
 
   useEffect(() => {
     fetchSuggestLabels();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
