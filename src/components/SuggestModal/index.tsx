@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import CheckMark from "assets/check-mark.svg";
 import { Loader } from "components";
-import { useFetchSuggestLabels, useOutsideAlerter } from "hooks";
+import { useFetchSuggestLabelsWithQuery, useOutsideAlerter } from "hooks";
 import {
   Setter,
   Container,
@@ -23,19 +23,16 @@ export const SuggestModal: React.FC<SuggestPropsType> = ({
   onConfirm,
   onClose,
 }) => {
-  const [fetchedSuggestLabels, fetchSuggestLabels] = useFetchSuggestLabels();
+  const { data, isLoading } = useFetchSuggestLabelsWithQuery();
 
   const ref = useRef(null);
   useOutsideAlerter(ref, onClose);
 
   useEffect(() => {
-    fetchSuggestLabels();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    setIsTickShow(Array(fetchedSuggestLabels.suggestLabels.length).fill(false));
-  }, [fetchedSuggestLabels]);
+    if (!isLoading) {
+      setIsTickShow(Array(data.length).fill(false));
+    }
+  }, [data, isLoading]);
 
   const [isTickShow, setIsTickShow] = useState<boolean[]>([]);
 
@@ -46,8 +43,8 @@ export const SuggestModal: React.FC<SuggestPropsType> = ({
 
   const handleOK = () => {
     const suggests: string[] = [];
-    fetchedSuggestLabels.suggestLabels.map((label, index) => {
-      if (isTickShow[index]) suggests.push(label);
+    data.map((label: { label: string }, index: number) => {
+      if (isTickShow[index]) suggests.push(label.label);
     });
     onConfirm(suggests);
   };
@@ -55,11 +52,11 @@ export const SuggestModal: React.FC<SuggestPropsType> = ({
   return (
     <Setter>
       <Container ref={ref} $isvisible={isVisible}>
-        {!fetchedSuggestLabels.loading ? (
+        {!isLoading ? (
           <ListItem>
-            {fetchedSuggestLabels.suggestLabels.map((label, index) => (
+            {data.map((label: { label: string }, index: number) => (
               <SuggestButton onClick={() => handleClickItem(index)} key={index}>
-                {label}
+                {label.label}
                 {isTickShow[index] ? (
                   <TickShow src={CheckMark} alt="CheckMark" />
                 ) : (

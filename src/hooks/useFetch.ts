@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
-import { NUMBER_TO_FETCH, SuggestLabels } from "consts";
+import { NUMBER_TO_FETCH } from "consts";
 
 export const useFetchDocumentsWithQuery = (id: number) => {
   return useQuery({
@@ -9,7 +8,7 @@ export const useFetchDocumentsWithQuery = (id: number) => {
       fetch(
         `${
           import.meta.env.VITE_FETCH_URL
-        }?offset=${id}&count=${NUMBER_TO_FETCH}`
+        }/documents?offset=${id}&count=${NUMBER_TO_FETCH}`
       ).then((res) => res.json()),
   });
 };
@@ -18,7 +17,9 @@ export const useFetchDocumentWithQuery = (id: number) => {
   return useQuery({
     queryKey: ["document", id],
     queryFn: async () => {
-      const response = await fetch(`${import.meta.env.VITE_FETCH_URL}/${id}`);
+      const response = await fetch(
+        `${import.meta.env.VITE_FETCH_URL}/documents/${id}`
+      );
       if (!response.ok) {
         throw new Error("Failed to fetch document");
       }
@@ -28,7 +29,7 @@ export const useFetchDocumentWithQuery = (id: number) => {
 };
 
 export const updateLabelsToAPI = async (id: number, labels: string[]) => {
-  fetch(`${import.meta.env.VITE_FETCH_URL}/${id}`, {
+  fetch(`${import.meta.env.VITE_FETCH_URL}/documents/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -41,32 +42,12 @@ export const updateLabelsToAPI = async (id: number, labels: string[]) => {
   });
 };
 
-export interface FetchedSuggestLabels {
-  suggestLabels: string[];
-  loading: boolean;
-}
-
-type FetchSuggestLabelsFunction = () => void;
-
-export const useFetchSuggestLabels = (): [
-  FetchedSuggestLabels,
-  FetchSuggestLabelsFunction
-] => {
-  const [fetchedSuggestLabels, setFetchedSuggestLabels] =
-    useState<FetchedSuggestLabels>({
-      suggestLabels: [],
-      loading: false,
-    });
-  const fetchSuggestLabels = async () => {
-    setFetchedSuggestLabels({ ...fetchedSuggestLabels, loading: true });
-    setTimeout(() => {
-      const shuffledArray = SuggestLabels.sort(() => 0.5 - Math.random());
-      const numElements = Math.floor(Math.random() * 3) + 3;
-      setFetchedSuggestLabels({
-        suggestLabels: shuffledArray.slice(0, numElements),
-        loading: false,
-      });
-    }, 1000);
-  };
-  return [fetchedSuggestLabels, fetchSuggestLabels];
+export const useFetchSuggestLabelsWithQuery = () => {
+  return useQuery({
+    queryKey: ["suggestLabels"],
+    queryFn: () =>
+      fetch(`${import.meta.env.VITE_FETCH_URL}/labels`).then((res) =>
+        res.json()
+      ),
+  });
 };

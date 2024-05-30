@@ -62,7 +62,6 @@ export const DocumentsContextProvider: React.FC<DocumentsContextProps> = ({
     const updatedDocuments = documents.map((doc, index) =>
       index === id ? { ...doc, label: newLabels } : doc
     );
-    console.log(updatedDocuments);
     setDocuments(updatedDocuments);
 
     if (newLabels) {

@@ -33,7 +33,7 @@ export const DocumentView: React.FC = () => {
       setLabels(data.label);
       updateCurrentId(parseInt(id ?? ""));
     }
-  }, [data, id, updateCurrentId]);
+  }, [data]);
 
   const handleReset = () => {
     setLabels(data.label);
@@ -57,6 +57,7 @@ export const DocumentView: React.FC = () => {
             <ControlBar
               labels={labels}
               document={document}
+              setDocument={setDocument}
               handleReset={handleReset}
             />
           </Container>
