@@ -1,6 +1,5 @@
 export * from "./ConfirmModal";
 export * from "./DocumentBar";
-export * from "../views/Document";
 export * from "./Footer";
 export * from "./Header";
 export * from "./Layout";
@@ -8,3 +7,4 @@ export * from "./SuggestModal";
 export * from "./ControlBar";
 export * from "./LabelBar";
 export * from "./Loader";
+export * from "./DuplicatedLabelModal";

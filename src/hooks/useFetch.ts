@@ -1,6 +1,21 @@
 import { useQuery } from "@tanstack/react-query";
 import { NUMBER_TO_FETCH } from "consts";
 
+export const useFetchCountOfDocuments = () => {
+  return useQuery({
+    queryKey: ["length"],
+    queryFn: () =>
+      fetch(`${import.meta.env.VITE_FETCH_URL}/documents/length`).then(
+        (response) => {
+          if (!response.ok) {
+            throw new Error("Failed to fetch count of documents");
+          }
+          return response.json();
+        }
+      ),
+  });
+};
+
 export const useFetchDocumentsWithQuery = (id: number) => {
   return useQuery({
     queryKey: ["documents", id],
@@ -16,15 +31,15 @@ export const useFetchDocumentsWithQuery = (id: number) => {
 export const useFetchDocumentWithQuery = (id: number) => {
   return useQuery({
     queryKey: ["document", id],
-    queryFn: async () => {
-      const response = await fetch(
-        `${import.meta.env.VITE_FETCH_URL}/documents/${id}`
-      );
-      if (!response.ok) {
-        throw new Error("Failed to fetch document");
-      }
-      return await response.json();
-    },
+    queryFn: () =>
+      fetch(`${import.meta.env.VITE_FETCH_URL}/documents/${id}`).then(
+        (response) => {
+          if (!response.ok) {
+            throw new Error("Failed to fetch document");
+          }
+          return response.json();
+        }
+      ),
   });
 };
 

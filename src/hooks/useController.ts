@@ -32,7 +32,6 @@ export const useController = (
         break;
       case "next":
         handlePageController(Math.min(parseInt(id) + 1, length - 1));
-        handlePageController(Math.min(parseInt(id) + 1));
     }
   };
 

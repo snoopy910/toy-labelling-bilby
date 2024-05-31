@@ -23,6 +23,7 @@ type PathParams = {
 interface ControlBarPropsType {
   labels: string[] | undefined;
   document: IDocument;
+  length: number;
   setDocument: (document: IDocument) => void;
   handleReset: (id: number) => void;
 }
@@ -30,13 +31,14 @@ interface ControlBarPropsType {
 export const ControlBar: React.FC<ControlBarPropsType> = ({
   labels,
   document,
+  length,
   setDocument,
   handleReset,
 }) => {
   const navigate = useNavigate();
 
   const { id } = useParams<PathParams>();
-  const { length, updateLabels } = useContext(DocumentsContext);
+  const { updateLabels } = useContext(DocumentsContext);
 
   const [isConfirmOpen, setIsConfirmOpen] = useState({
     status: false,

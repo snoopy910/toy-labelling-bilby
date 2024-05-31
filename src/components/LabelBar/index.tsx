@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import CloseMark from "assets/close-mark.svg";
-import { SuggestModal } from "components";
+import { DuplicateLabelModal, SuggestModal } from "components";
 import {
   LabelContainer,
   Label,
@@ -26,6 +26,8 @@ export const LabelBar: React.FC<LabelBarPropsType> = ({
   const [label, setLabel] = useState<string>("");
 
   const [isSuggestOpen, setIsSuggestOpen] = useState<boolean>(false);
+  const [isDuplicateLabelOpen, setIsDuplicateLabelOpen] =
+    useState<boolean>(false);
   const [isSuggestVisible, setIsSuggestVisible] = useState<boolean>(false);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,9 +36,18 @@ export const LabelBar: React.FC<LabelBarPropsType> = ({
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
-      setLabels([...(labels || []), label]);
-      setLabel("");
+      const check = (labels ?? []).map((element) => label === element);
+      if (!check) {
+        setLabels([...(labels || []), label]);
+        setLabel("");
+      } else {
+        setIsDuplicateLabelOpen(true);
+      }
     }
+  };
+
+  const handleConfirm = () => {
+    setIsDuplicateLabelOpen(false);
   };
 
   const handleClickSuggest = () => {
@@ -49,8 +60,18 @@ export const LabelBar: React.FC<LabelBarPropsType> = ({
   };
 
   const handleSuggest = (suggests: string[] | undefined) => {
-    setLabels([...(labels || []), ...(suggests || [])]);
-    setIsSuggestVisible(false);
+    let check = false;
+    suggests?.forEach((suggest) => {
+      labels?.map((element) => {
+        if (element === suggest) check = true;
+      });
+    });
+    if (!check) {
+      setLabels([...(labels || []), ...(suggests || [])]);
+      setIsSuggestVisible(false);
+    } else {
+      setIsDuplicateLabelOpen(true);
+    }
     setTimeout(() => {
       setIsSuggestOpen(false);
     }, 480);
@@ -107,6 +128,11 @@ export const LabelBar: React.FC<LabelBarPropsType> = ({
           </LabelItem>
         ))}
       </LabelBox>
+      {isDuplicateLabelOpen ? (
+        <DuplicateLabelModal onConfirm={handleConfirm} />
+      ) : (
+        <></>
+      )}
     </LabelContainer>
   );
 };

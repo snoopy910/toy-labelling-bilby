@@ -1,9 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ControlBar, LabelBar, Loader } from "components";
 import { IDocument } from "consts";
-import { DocumentsContext } from "contexts";
-import { useFetchDocumentWithQuery } from "hooks";
+import { useFetchCountOfDocuments, useFetchDocumentWithQuery } from "hooks";
 import { Screen, Container, Title, Body, GoToArticle } from "./style";
 
 type PathParams = {
@@ -19,34 +18,44 @@ const DefaultDocument: IDocument = {
 
 export const DocumentView: React.FC = () => {
   const [document, setDocument] = useState<IDocument>(DefaultDocument);
+  const [count, setCount] = useState(0);
   const [labels, setLabels] = useState<string[] | undefined>([]);
 
   const { id } = useParams<PathParams>();
-  const { updateCurrentId } = useContext(DocumentsContext);
-  const { data, isLoading, error } = useFetchDocumentWithQuery(
-    parseInt(id ?? "")
-  );
+  const { data: dataCount, isLoading: isLoadingCount } =
+    useFetchCountOfDocuments();
+  const {
+    data: dataDocument,
+    isLoading: isLoadingDocument,
+    error: errorDocument,
+  } = useFetchDocumentWithQuery(parseInt(id ?? ""));
 
   useEffect(() => {
-    if (data) {
-      setDocument(data);
-      setLabels(data.label);
-      updateCurrentId(parseInt(id ?? ""));
+    if (dataDocument) {
+      setDocument(dataDocument);
+      setLabels(dataDocument.label);
     }
-  }, [data]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dataDocument]);
+
+  useEffect(() => {
+    if (dataCount !== undefined) {
+      setCount(dataCount.count);
+    }
+  }, [dataCount]);
 
   const handleReset = () => {
-    setLabels(data.label);
+    setLabels(dataDocument.label);
   };
 
   return (
     <>
-      {isLoading ? (
+      {isLoadingDocument || isLoadingCount ? (
         <Loader />
-      ) : !error ? (
+      ) : !errorDocument ? (
         <Screen>
           <Container>
-            <Title>{`${document.id + 1} ${document.title}`}</Title>
+            <Title>{`${document.id + 1}/${count} ${document.title}`}</Title>
             <Body>{document.body}</Body>
             <GoToArticle>
               <a href={document.url} target="_blank">
@@ -57,13 +66,14 @@ export const DocumentView: React.FC = () => {
             <ControlBar
               labels={labels}
               document={document}
+              length={count}
               setDocument={setDocument}
               handleReset={handleReset}
             />
           </Container>
         </Screen>
       ) : (
-        <p>{error.message}</p>
+        <p>{errorDocument.message}</p>
       )}
     </>
   );

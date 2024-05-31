@@ -12,7 +12,6 @@ interface DocumentsContextType {
   isLoading: boolean;
   length: number;
   updateLabels: (id: number, labels: string[] | undefined) => void;
-  updateCurrentId: (id: number) => void;
   setId: (id: number) => void;
 }
 
@@ -22,7 +21,6 @@ const defaultDocuments: DocumentsContextType = {
   isLoading: false,
   length: 0,
   updateLabels: () => {},
-  updateCurrentId: () => {},
   setId: () => {},
 };
 
@@ -32,8 +30,6 @@ export const DocumentsContextProvider: React.FC<DocumentsContextProps> = ({
   children,
 }) => {
   const [documents, setDocuments] = useState<IDocument[]>([]);
-  const [length, setLength] = useState<number>(0);
-  const [currentId, setCurrentId] = useState(0);
   const [id, setId] = useState(0);
 
   const { isLoading, data } = useFetchDocumentsWithQuery(id);
@@ -48,15 +44,6 @@ export const DocumentsContextProvider: React.FC<DocumentsContextProps> = ({
       setDocuments((prevDocuments) => [...prevDocuments, ...data]);
     }
   }, [data, isLoading]);
-
-  useEffect(() => {
-    setLength(Math.max(length, currentId + 1, documents.length));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentId, documents]);
-
-  const updateCurrentId = (id: number) => {
-    setCurrentId(id);
-  };
 
   const updateLabels = (id: number, newLabels: string[] | undefined) => {
     const updatedDocuments = documents.map((doc, index) =>
@@ -77,7 +64,6 @@ export const DocumentsContextProvider: React.FC<DocumentsContextProps> = ({
         isLoading,
         length,
         updateLabels,
-        updateCurrentId,
         setId,
       }}
     >
